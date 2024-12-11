@@ -1,0 +1,60 @@
+:root {
+  /* background colors */
+  --bgColor: #f0f0f0;
+  --bgColorDark: #464444;
+
+  /* text colors */
+  --primaryColor: #464444;
+  --secondaryColor: #f0f0f0;
+
+  /* button colors */
+  --btnPrimaryColor: #f0f0f0;
+  --btnPrimaryColorHover: #e0e0e0;
+  --btnSecondaryColor: #464444;
+  --btnSecondaryColorHover: #363636;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--bgColor);
+  color: var(--primaryColor);
+}
+
+main {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+button {
+  background-color: var(--btnPrimaryColor);
+  color: var(--btnSecondaryColor);
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+footer {
+  background-color: var(--bgColorDark);
+  color: var(--secondaryColor);
+  text-align: center;
+  padding: 1rem;
+}
+
+header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  background-color: var(--bgColorDark);
+  color: var(--secondaryColor);
+  padding: 1rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
