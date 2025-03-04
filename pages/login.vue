@@ -1,27 +1,43 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthState } from '#imports';
 
+const { isLoggedIn } = useAuthState();
 const router = useRouter();
-const username = ref('');
-const password = ref('');
+const { username, password, login } = useLogin();
 
-async function login() {
-  try {
-    await $fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: {
-        username: username.value,
-        password: password.value,
-      },
-    });
-    router.push('/');
-  } catch (error) {
-    console.error('Login failed', error);
+if (isLoggedIn.value) {
+  router.push('/');
+}
+
+function useLogin() {
+  const username = ref('');
+  const password = ref('');
+  
+  async function login() {
+    try {
+      await $fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: {
+          username: username.value,
+          password: password.value,
+        },
+      });
+      router.push('/');
+    } catch (error) {
+      console.error('Login failed', error);
+    }
   }
+
+  return {
+    username,
+    password,
+    login,
+  };
 }
 </script>
 
