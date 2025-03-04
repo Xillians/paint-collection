@@ -10,7 +10,7 @@ export default defineEventHandler((event) => {
     return;
   }
 
-  const cookie = event.node.req.headers.cookie;
+  const cookie = parseCookies(event);
   if (!cookie!) {
     throw createError({
       statusCode: 401,
@@ -18,7 +18,7 @@ export default defineEventHandler((event) => {
     });
   }
 
-  const sessionCookie = cookie.split(';').find(c => c.trim().startsWith('session='));
+  const sessionCookie = cookie['session'];
   if (!sessionCookie) {
     throw createError({
       statusCode: 401,
@@ -30,5 +30,4 @@ export default defineEventHandler((event) => {
   event.context.auth = {
     session
   };
-  return event;
 });
