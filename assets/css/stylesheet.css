@@ -1,0 +1,38 @@
+:root {
+  --sunglo: #E7717D;
+  --loblolly: #C2CAD0;
+  --tea: #C2B9B0;
+  --sand-dune: #7E685A;
+  --athens-gray: #f1f3f5;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--athens-gray);
+  color: var(--sand-dune);
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--sunglo);
+}
+
+button {
+  background-color: var(--tea);
+  color: var(--athens-gray);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--loblolly);
+}
