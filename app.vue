@@ -1,6 +1,13 @@
+<script setup lang="ts">
+import AppLogin from './components/AppLogin.vue';
+</script>
+
 <template>
-  <div>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
-  </div>
+  <main>
+    <AppLogin />
+  </main>
 </template>
+
+<style>
+  @import url("~/assets/css/stylesheet.css");
+</style>
