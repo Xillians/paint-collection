@@ -1,0 +1,95 @@
+/* generated using openapi-typescript-codegen -- do not edit */
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+import type { CreatePaintInputBody } from '../models/CreatePaintInputBody';
+import type { ErrorModel } from '../models/ErrorModel';
+import type { Paints } from '../models/Paints';
+import type { UpdatePaintInputBody } from '../models/UpdatePaintInputBody';
+import type { CancelablePromise } from '../core/CancelablePromise';
+import type { BaseHttpRequest } from '../core/BaseHttpRequest';
+export class PaintsService {
+    constructor(public readonly httpRequest: BaseHttpRequest) {}
+    /**
+     * @returns any[] OK
+     * @returns ErrorModel Error
+     * @throws ApiError
+     */
+    public getPaints(): CancelablePromise<any[] | null | ErrorModel> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/paints',
+        });
+    }
+    /**
+     * @param requestBody
+     * @returns Paints OK
+     * @returns ErrorModel Error
+     * @throws ApiError
+     */
+    public postPaints(
+        requestBody: CreatePaintInputBody,
+    ): CancelablePromise<Paints | ErrorModel> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/paints',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+    /**
+     * @param id
+     * @returns string OK
+     * @returns ErrorModel Error
+     * @throws ApiError
+     */
+    public deletePaints(
+        id: number,
+    ): CancelablePromise<string | ErrorModel> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/paints/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+    /**
+     * @param id
+     * @returns Paints OK
+     * @returns ErrorModel Error
+     * @throws ApiError
+     */
+    public getPaints1(
+        id: number,
+    ): CancelablePromise<Paints | ErrorModel> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/paints/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+    /**
+     * @param id
+     * @param requestBody
+     * @returns Paints OK
+     * @returns ErrorModel Error
+     * @throws ApiError
+     */
+    public putPaints(
+        id: number,
+        requestBody: UpdatePaintInputBody,
+    ): CancelablePromise<Paints | ErrorModel> {
+        return this.httpRequest.request({
+            method: 'PUT',
+            url: '/paints/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+}
