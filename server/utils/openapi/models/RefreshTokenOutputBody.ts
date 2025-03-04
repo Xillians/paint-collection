@@ -7,6 +7,7 @@ export type RefreshTokenOutputBody = {
      * A URL to the JSON Schema for this object.
      */
     readonly $schema?: string;
+    expires_at: string;
     token: string;
 };
 
