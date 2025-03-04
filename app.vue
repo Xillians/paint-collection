@@ -1,14 +1,21 @@
 <script setup lang="ts">
- const { isLoggedIn } = useAuthState();
+import AppFooter from './components/app-footer.vue';
+import AppHeader from './components/app-header.vue';
+
+ const auth = useAuthState();
  const router = useRouter();
 
-  if (!isLoggedIn.value && router.currentRoute.value.path !== "/login") {
+  if (!auth.value.isLoggedIn && router.currentRoute.value.path !== "/login") {
     router.push("/login");
   }
 </script>
 <template>
   <main>
-    <NuxtPage />
+    <AppHeader />
+    <div class="container">
+      <NuxtPage />
+    </div>
+    <AppFooter />
   </main>
 </template>
 

@@ -3,11 +3,11 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthState } from '#imports';
 
-const { isLoggedIn } = useAuthState();
+const auth = useAuthState();
 const router = useRouter();
 const { username, password, login } = useLogin();
 
-if (isLoggedIn.value) {
+if (auth.value.isLoggedIn) {
   router.push('/');
 }
 
@@ -27,6 +27,7 @@ function useLogin() {
           password: password.value,
         },
       });
+      auth.value.isLoggedIn = true;
       router.push('/');
     } catch (error) {
       console.error('Login failed', error);
