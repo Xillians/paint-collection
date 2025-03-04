@@ -7,10 +7,12 @@ import type { OpenAPIConfig } from './core/OpenAPI';
 import { FetchHttpRequest } from './core/FetchHttpRequest';
 import { PaintBrandsService } from './services/PaintBrandsService';
 import { PaintsService } from './services/PaintsService';
+import { UsersService } from './services/UsersService';
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 export class PaintAPI {
     public readonly paintBrands: PaintBrandsService;
     public readonly paints: PaintsService;
+    public readonly users: UsersService;
     public readonly request: BaseHttpRequest;
     constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = FetchHttpRequest) {
         this.request = new HttpRequest({
@@ -26,6 +28,7 @@ export class PaintAPI {
         });
         this.paintBrands = new PaintBrandsService(this.request);
         this.paints = new PaintsService(this.request);
+        this.users = new UsersService(this.request);
     }
 }
 
