@@ -7,19 +7,26 @@
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  min-height: 100vh;
+  max-width: 100vw;
   font-family: 'Roboto', sans-serif;
   background-color: var(--athens-gray);
   color: var(--sand-dune);
   margin: 0;
 }
 
+main {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-rows: auto 1fr auto;
+}
+
 h1, h2, h3, h4, h5, h6 {
   color: var(--sunglo);
+}
+
+p,span {
+  max-width: 64ch;
 }
 
 button {
@@ -36,4 +43,16 @@ input {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid var(--loblolly);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 95vw;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  margin: 0 auto;
 }
