@@ -10,6 +10,6 @@ export type ListBrandOutputBody = {
      * A URL to the JSON Schema for this object.
      */
     readonly $schema?: string;
-    brands: PaintBrands[] | null;
+    brands: PaintBrands[];
 };
 

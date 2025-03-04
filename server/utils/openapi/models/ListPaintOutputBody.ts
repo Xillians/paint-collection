@@ -10,6 +10,6 @@ export type ListPaintOutputBody = {
      * A URL to the JSON Schema for this object.
      */
     readonly $schema?: string;
-    paints: Paints[] | null;
+    paints: Paints[];
 };
 
