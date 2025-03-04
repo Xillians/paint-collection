@@ -3,9 +3,7 @@ type AuthState = {
 }
 export const useAuthState = () => useState<AuthState>('auth', () => {
   const cookie = useCookie('clientSession');
-  console.log('cookie', cookie);
-  if (cookie.value) {
-    return { isLoggedIn: true };
+  return {
+    isLoggedIn: !!cookie.value
   }
-  return { isLoggedIn: false };
 });
