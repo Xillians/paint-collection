@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-const { username, password, login } = useLogin();
+import { useRouter } from 'vue-router';
 
-function useLogin() {
-  const username = ref('')
-  const password = ref('')
+const router = useRouter();
+const username = ref('');
+const password = ref('');
 
-  async function login() {
+async function login() {
+  try {
     await $fetch('/api/login', {
       method: 'POST',
       headers: {
@@ -16,13 +17,10 @@ function useLogin() {
         username: username.value,
         password: password.value,
       },
-    })
-  }
-
-  return {
-    username,
-    password,
-    login,
+    });
+    router.push('/');
+  } catch (error) {
+    console.error('Login failed', error);
   }
 }
 </script>
