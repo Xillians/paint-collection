@@ -7,15 +7,15 @@ function useLogin() {
   const password = ref('')
 
   async function login() {
-    await fetch('/api/login', {
+    await $fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
+      body: {
         username: username.value,
         password: password.value,
-      }),
+      },
     })
   }
 
