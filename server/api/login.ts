@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     secure: true,
     sameSite: 'strict',
     path: '/',
-    maxAge: 60 * 60 * 24 * 7 // 1 week
+    maxAge: 60 * 60 * 24 * 1 // 1 day
   });
 
   // set a cookie for client to read
@@ -24,5 +24,6 @@ export default defineEventHandler(async (event) => {
     httpOnly: false,
     secure: false,
     sameSite: 'strict',
+    maxAge: 60 * 60 * 24 * 1 // 1 day
   });
 });
