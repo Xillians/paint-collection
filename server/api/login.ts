@@ -1,6 +1,5 @@
 import { readBody } from 'h3';
 import { setCookie } from 'h3';
-import { useAuthState } from '~/composables/useAuthState';
 
 type LoginBody = {
   username: string;
@@ -8,7 +7,6 @@ type LoginBody = {
 };
 
 export default defineEventHandler(async (event) => {
-  const { isLoggedIn } = useAuthState();
   const body = await readBody<LoginBody>(event);
   console.log(JSON.stringify(body));
   const userId = 4201;
@@ -20,5 +18,11 @@ export default defineEventHandler(async (event) => {
     path: '/',
     maxAge: 60 * 60 * 24 * 7 // 1 week
   });
-  isLoggedIn.value = true;
+
+  // set a cookie for client to read
+  setCookie(event, 'clientSession', userId.toString(), {
+    httpOnly: false,
+    secure: false,
+    sameSite: 'strict',
+  });
 });
