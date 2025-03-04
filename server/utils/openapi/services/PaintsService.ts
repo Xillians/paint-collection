@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { CreatePaintInputBody } from '../models/CreatePaintInputBody';
 import type { ErrorModel } from '../models/ErrorModel';
+import type { ListPaintOutputBody } from '../models/ListPaintOutputBody';
 import type { Paints } from '../models/Paints';
 import type { UpdatePaintInputBody } from '../models/UpdatePaintInputBody';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -11,11 +12,11 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class PaintsService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns any[] OK
+     * @returns ListPaintOutputBody OK
      * @returns ErrorModel Error
      * @throws ApiError
      */
-    public getPaints(): CancelablePromise<any[] | null | ErrorModel> {
+    public getPaints(): CancelablePromise<ListPaintOutputBody | ErrorModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/paints',

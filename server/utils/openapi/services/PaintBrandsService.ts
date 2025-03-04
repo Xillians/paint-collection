@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { CreateBrandInputBody } from '../models/CreateBrandInputBody';
 import type { ErrorModel } from '../models/ErrorModel';
+import type { ListBrandOutputBody } from '../models/ListBrandOutputBody';
 import type { PaintBrands } from '../models/PaintBrands';
 import type { UpdateBrandInputBody } from '../models/UpdateBrandInputBody';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -11,11 +12,11 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class PaintBrandsService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @returns any[] OK
+     * @returns ListBrandOutputBody OK
      * @returns ErrorModel Error
      * @throws ApiError
      */
-    public getPaintBrands(): CancelablePromise<any[] | null | ErrorModel> {
+    public getPaintBrands(): CancelablePromise<ListBrandOutputBody | ErrorModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/paint-brands',

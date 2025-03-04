@@ -14,6 +14,8 @@ export type { CreateBrandInputBody } from './models/CreateBrandInputBody';
 export type { CreatePaintInputBody } from './models/CreatePaintInputBody';
 export type { ErrorDetail } from './models/ErrorDetail';
 export type { ErrorModel } from './models/ErrorModel';
+export type { ListBrandOutputBody } from './models/ListBrandOutputBody';
+export type { ListPaintOutputBody } from './models/ListPaintOutputBody';
 export type { LoginOutputBody } from './models/LoginOutputBody';
 export type { PaintBrands } from './models/PaintBrands';
 export type { Paints } from './models/Paints';
