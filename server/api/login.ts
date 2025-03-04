@@ -1,6 +1,6 @@
 import { readBody } from 'h3';
 import { setCookie } from 'h3';
-import paintApi from '~/composables/paintApi';
+import { usePaintApi } from '~/composables/paintApi';
 import { ErrorModel } from '../utils/openapi';
 import { differenceInSeconds, parseISO } from 'date-fns';
 
@@ -11,10 +11,13 @@ type LoginBody = {
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<LoginBody>(event);
+  const cookies = parseCookies(event);
+  const token = cookies.session;
   console.log(JSON.stringify(body));
 
   try {
     const userId = 4201;
+    const paintApi = usePaintApi(token);
     const response = await paintApi.users.getLogin(userId);
     if (!('token' in response)) {
       response satisfies ErrorModel;
