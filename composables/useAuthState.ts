@@ -8,7 +8,5 @@ export function useAuthState() {
     isLoggedIn.value = true;
   }
 
-  console.log('isLoggedIn', isLoggedIn.value);
-
   return { isLoggedIn }
 }
