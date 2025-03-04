@@ -26,6 +26,7 @@ button {
   background-color: var(--tea);
   color: var(--athens-gray);
   border: none;
+  font-size: 1rem;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
