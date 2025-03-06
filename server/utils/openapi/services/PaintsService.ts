@@ -5,7 +5,7 @@
 import type { CreatePaintInputBody } from '../models/CreatePaintInputBody';
 import type { ErrorModel } from '../models/ErrorModel';
 import type { ListPaintOutputBody } from '../models/ListPaintOutputBody';
-import type { Paints } from '../models/Paints';
+import type { PaintOutputDetails } from '../models/PaintOutputDetails';
 import type { UpdatePaintInputBody } from '../models/UpdatePaintInputBody';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -24,13 +24,13 @@ export class PaintsService {
     }
     /**
      * @param requestBody
-     * @returns Paints OK
+     * @returns PaintOutputDetails OK
      * @returns ErrorModel Error
      * @throws ApiError
      */
     public postPaints(
         requestBody: CreatePaintInputBody,
-    ): CancelablePromise<Paints | ErrorModel> {
+    ): CancelablePromise<PaintOutputDetails | ErrorModel> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/paints',
@@ -57,13 +57,13 @@ export class PaintsService {
     }
     /**
      * @param id
-     * @returns Paints OK
+     * @returns PaintOutputDetails OK
      * @returns ErrorModel Error
      * @throws ApiError
      */
     public getPaints1(
         id: number,
-    ): CancelablePromise<Paints | ErrorModel> {
+    ): CancelablePromise<PaintOutputDetails | ErrorModel> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/paints/{id}',
@@ -75,14 +75,14 @@ export class PaintsService {
     /**
      * @param id
      * @param requestBody
-     * @returns Paints OK
+     * @returns PaintOutputDetails OK
      * @returns ErrorModel Error
      * @throws ApiError
      */
     public putPaints(
         id: number,
         requestBody: UpdatePaintInputBody,
-    ): CancelablePromise<Paints | ErrorModel> {
+    ): CancelablePromise<PaintOutputDetails | ErrorModel> {
         return this.httpRequest.request({
             method: 'PUT',
             url: '/paints/{id}',

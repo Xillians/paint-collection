@@ -3,12 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { AddToCollectionInputBody } from '../models/AddToCollectionInputBody';
+import type { CollectionPaintDetails } from '../models/CollectionPaintDetails';
 import type { ErrorModel } from '../models/ErrorModel';
-import type { GetCollectionEntryOutputBody } from '../models/GetCollectionEntryOutputBody';
 import type { ListPaintCollectionOutputBody } from '../models/ListPaintCollectionOutputBody';
-import type { PaintCollection } from '../models/PaintCollection';
 import type { UpdateCollectionEntryInputBody } from '../models/UpdateCollectionEntryInputBody';
-import type { UpdateCollectionEntryOutputBody } from '../models/UpdateCollectionEntryOutputBody';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class CollectionService {
@@ -26,13 +24,13 @@ export class CollectionService {
     }
     /**
      * @param requestBody
-     * @returns PaintCollection OK
+     * @returns CollectionPaintDetails OK
      * @returns ErrorModel Error
      * @throws ApiError
      */
     public postCollection(
         requestBody: AddToCollectionInputBody,
-    ): CancelablePromise<PaintCollection | ErrorModel> {
+    ): CancelablePromise<CollectionPaintDetails | ErrorModel> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/collection',
@@ -59,32 +57,15 @@ export class CollectionService {
     }
     /**
      * @param id
-     * @returns GetCollectionEntryOutputBody OK
-     * @returns ErrorModel Error
-     * @throws ApiError
-     */
-    public getCollection1(
-        id: number,
-    ): CancelablePromise<GetCollectionEntryOutputBody | ErrorModel> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/collection/{id}',
-            path: {
-                'id': id,
-            },
-        });
-    }
-    /**
-     * @param id
      * @param requestBody
-     * @returns UpdateCollectionEntryOutputBody OK
+     * @returns CollectionPaintDetails OK
      * @returns ErrorModel Error
      * @throws ApiError
      */
     public putCollection(
         id: number,
         requestBody: UpdateCollectionEntryInputBody,
-    ): CancelablePromise<UpdateCollectionEntryOutputBody | ErrorModel> {
+    ): CancelablePromise<CollectionPaintDetails | ErrorModel> {
         return this.httpRequest.request({
             method: 'PUT',
             url: '/collection/{id}',

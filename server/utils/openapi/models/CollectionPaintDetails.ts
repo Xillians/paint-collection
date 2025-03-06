@@ -2,12 +2,16 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PaintCollection } from './PaintCollection';
-export type UpdateCollectionEntryOutputBody = {
+import type { PaintOutputDetails } from './PaintOutputDetails';
+export type CollectionPaintDetails = {
     /**
      * A URL to the JSON Schema for this object.
      */
     readonly $schema?: string;
-    paint: PaintCollection;
+    created_at: string;
+    id: number;
+    paint: PaintOutputDetails;
+    quantity: number;
+    updated_at: string;
 };
 
