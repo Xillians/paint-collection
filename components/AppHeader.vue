@@ -1,3 +1,13 @@
+
+<template>
+  <header>
+    <h1>
+      Paint collection
+    </h1>
+    <button v-if="auth.isLoggedIn" @click="logOut">Log out</button>
+  </header>
+</template>
+
 <script setup lang="ts">
  const auth = useAuthState();
 
@@ -14,14 +24,6 @@
   }
  }
 </script>
-<template>
-  <header>
-    <h1>
-      Paint collection
-    </h1>
-    <button v-if="auth.isLoggedIn" @click="logOut">Log out</button>
-  </header>
-</template>
 
 <style scoped>
 header {
