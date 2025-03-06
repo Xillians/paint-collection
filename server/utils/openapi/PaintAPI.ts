@@ -5,11 +5,13 @@
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
 import { FetchHttpRequest } from './core/FetchHttpRequest';
+import { CollectionService } from './services/CollectionService';
 import { PaintBrandsService } from './services/PaintBrandsService';
 import { PaintsService } from './services/PaintsService';
 import { UsersService } from './services/UsersService';
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 export class PaintAPI {
+    public readonly collection: CollectionService;
     public readonly paintBrands: PaintBrandsService;
     public readonly paints: PaintsService;
     public readonly users: UsersService;
@@ -26,6 +28,7 @@ export class PaintAPI {
             HEADERS: config?.HEADERS,
             ENCODE_PATH: config?.ENCODE_PATH,
         });
+        this.collection = new CollectionService(this.request);
         this.paintBrands = new PaintBrandsService(this.request);
         this.paints = new PaintsService(this.request);
         this.users = new UsersService(this.request);

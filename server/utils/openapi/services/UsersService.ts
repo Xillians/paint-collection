@@ -12,20 +12,14 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class UsersService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
     /**
-     * @param id
      * @returns string OK
      * @returns ErrorModel Error
      * @throws ApiError
      */
-    public deleteForget(
-        id: number,
-    ): CancelablePromise<string | ErrorModel> {
+    public deleteForget(): CancelablePromise<string | ErrorModel> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/forget/{id}',
-            path: {
-                'id': id,
-            },
+            url: '/forget',
         });
     }
     /**
@@ -46,20 +40,14 @@ export class UsersService {
         });
     }
     /**
-     * @param id
      * @returns RefreshTokenOutputBody OK
      * @returns ErrorModel Error
      * @throws ApiError
      */
-    public getRefresh(
-        id: number,
-    ): CancelablePromise<RefreshTokenOutputBody | ErrorModel> {
+    public getRefresh(): CancelablePromise<RefreshTokenOutputBody | ErrorModel> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/refresh/{id}',
-            path: {
-                'id': id,
-            },
+            url: '/refresh',
         });
     }
     /**
