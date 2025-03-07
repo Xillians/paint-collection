@@ -1,12 +1,5 @@
 <template>
-  <div>
-    <h1>
-      App body
-    </h1>
-    <p>
-      This is the body of the app
-    </p>
-  </div>
+  <CollectionList />
 </template>
 
 <style scoped>
