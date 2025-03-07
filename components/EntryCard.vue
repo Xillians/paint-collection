@@ -1,5 +1,5 @@
 <template>
-  <button v-for="collection in collectionList" :key="collection.id" class="entry-card">
+  <button v-for="collection in collectionList" :key="collection.id" class="entry-card transparent">
     <LabelledField>
       <p>{{ collection.quantity }}x</p>
     </LabelledField>
@@ -43,21 +43,5 @@ import type { CollectionPaintDetails } from '~/server/utils/openapi';
   gap: 1rem;
   border-bottom: 1px solid var(--button-background);
   height: fit-content;
-}
-button {
-  background-color: transparent;
-  border-radius: 0;
-  border: none;
-  color: var(--header-color);
-  height: fit-content;
-  cursor: pointer;
-  transition: background-color 0.3s ease-out, border-radius 0.3s ease-out;
-}
-button:hover,
-button:focus {
-  background-color: var(--button-background);
-  color: white;
-  border-radius: 5px;
-  transition: background-color 0.3s ease-out, border-radius 0.3s ease-out;
 }
 </style>
