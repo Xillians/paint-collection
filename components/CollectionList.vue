@@ -18,6 +18,9 @@
         }"></div>
       </LabelledField>
     </button>
+    <button>
+      <h2>+</h2>
+    </button>
   </div>
 </template>
 
