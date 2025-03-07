@@ -18,7 +18,7 @@
         }"></div>
       </LabelledField>
     </button>
-    <button>
+    <button aria-label="add entry">
       <h2>+</h2>
     </button>
   </div>
