@@ -26,7 +26,7 @@ export function usePaintApi(token: string) {
     throw new Error('Unknown response');
   }
 
-  function parseError(err: unknown): ErrorModel {
+  function parseError(err: unknown): ErrorModel | null {
     const schemaValue = "https://paint-api-v2.fly.dev/schemas/ErrorModel.json";
     if (
       typeof err === 'object'
@@ -37,7 +37,7 @@ export function usePaintApi(token: string) {
       const error = err as ErrorModel;
       return error;
     }
-    throw new Error('Unknown error');
+    return null;
   }
 
   return {
