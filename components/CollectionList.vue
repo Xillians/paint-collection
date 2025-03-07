@@ -37,6 +37,25 @@ import type { CollectionPaintDetails } from '~/server/utils/openapi';
 </script>
 
 <style scoped>
+h2 {
+  margin: 0;
+}
+button {
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+  color: var(--sunglo);
+  height: fit-content;
+  cursor: pointer;
+  transition: background-color 0.3s ease-out, border-radius 0.3s ease-out;
+}
+button:hover,
+button:focus {
+  background-color: var(--tea);
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-out, border-radius 0.3s ease-out;
+}
 .entry-list {
   display: flex;
   flex-direction: column;
@@ -54,25 +73,5 @@ import type { CollectionPaintDetails } from '~/server/utils/openapi';
   gap: 1rem;
   border-bottom: 1px solid #ccc;
   height: fit-content;
-}
-
-h1 {
-  align-self: center;
-}
-
-button {
-  background-color: transparent;
-  border-radius: 0;
-  border: none;
-  color: var(--sunglo);
-  cursor: pointer;
-  transition: background-color 0.3s ease-out, border-radius 0.3s ease-out;
-}
-button:hover,
-button:focus {
-  background-color: var(--tea);
-  color: white;
-  border-radius: 5px;
-  transition: background-color 0.3s ease-out, border-radius 0.3s ease-out;
 }
 </style>
