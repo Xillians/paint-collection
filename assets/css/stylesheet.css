@@ -1,16 +1,16 @@
 :root {
-  --sunglo: #E7717D;
-  --loblolly: #C2CAD0;
-  --tea: #C2B9B0;
-  --sand-dune: #7E685A;
-  --athens-gray: #f1f3f5;
+  --header-color: #E7717D;
+  --secondary-color: #C2CAD0;
+  --button-background: #C2B9B0;
+  --text-color: #7E685A;
+  --background-color: #f1f3f5;
 }
 
 body {
   max-width: 100vw;
   font-family: 'Roboto', sans-serif;
-  background-color: var(--athens-gray);
-  color: var(--sand-dune);
+  background-color: var(--background-color);
+  color: var(--text-color);
   margin: 0;
 }
 
@@ -22,7 +22,7 @@ main {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: var(--sunglo);
+  color: var(--header-color);
 }
 
 p,span {
@@ -30,8 +30,8 @@ p,span {
 }
 
 button {
-  background-color: var(--tea);
-  color: var(--athens-gray);
+  background-color: var(--button-background);
+  color: var(--background-color);
   border: none;
   font-size: 1rem;
   padding: 10px 20px;
@@ -42,7 +42,7 @@ button {
 input {
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid var(--loblolly);
+  border: 1px solid var(--secondary-color);
 }
 
 footer {

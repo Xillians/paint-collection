@@ -41,21 +41,21 @@ import type { CollectionPaintDetails } from '~/server/utils/openapi';
   align-items: center;
   width: 100%;
   gap: 1rem;
-  border-bottom: 1px solid var(--tea);
+  border-bottom: 1px solid var(--button-background);
   height: fit-content;
 }
 button {
   background-color: transparent;
   border-radius: 0;
   border: none;
-  color: var(--sunglo);
+  color: var(--header-color);
   height: fit-content;
   cursor: pointer;
   transition: background-color 0.3s ease-out, border-radius 0.3s ease-out;
 }
 button:hover,
 button:focus {
-  background-color: var(--tea);
+  background-color: var(--button-background);
   color: white;
   border-radius: 5px;
   transition: background-color 0.3s ease-out, border-radius 0.3s ease-out;

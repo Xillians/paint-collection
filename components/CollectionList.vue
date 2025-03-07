@@ -18,7 +18,7 @@ button {
 }
 button:hover,
 button:focus {
-  background-color: var(--tea);
+  background-color: var(--button-background);
   color: white;
   border-radius: 5px;
   transition: background-color 0.3s ease-out, border-radius 0.3s ease-out;
