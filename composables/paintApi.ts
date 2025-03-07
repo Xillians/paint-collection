@@ -23,6 +23,10 @@ export function usePaintApi(token: string) {
       const apiResponse = response as T;
       return apiResponse;
     }
+    const error = parseError(response);
+    if (error) {
+      throw error;
+    }
     throw new Error('Unknown response');
   }
 
