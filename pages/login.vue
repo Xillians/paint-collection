@@ -13,43 +13,32 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthState } from '#imports';
-
+const username = ref('');
+const password = ref('');
 const auth = useAuthState();
 const router = useRouter();
-const { username, password, login } = useLogin();
 
 if (auth.value.isLoggedIn) {
   router.push('/');
 }
-
-function useLogin() {
-  const username = ref('');
-  const password = ref('');
   
-  async function login() {
-    try {
-      await $fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: {
-          username: username.value,
-          password: password.value,
-        },
-      });
-      auth.value.isLoggedIn = true;
-      router.push('/');
-    } catch (error) {
-      console.error('Login failed', error);
-    }
+async function login() {
+  try {
+    await $fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: {
+        username: username.value,
+        password: password.value,
+      },
+    });
+    auth.value.isLoggedIn = true;
+    router.push('/');
+  } catch (error) {
+    console.error('Login failed', error);
   }
-
-  return {
-    username,
-    password,
-    login,
-  };
 }
 </script>
 
