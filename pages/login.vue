@@ -4,7 +4,7 @@
     <form @submit.prevent="login">
       <input type="text" v-model="username" placeholder="Username" />
       <input type="password" v-model="password" placeholder="Password" />
-      <button type="submit">Login</button>
+      <button type="submit" aria-label="Log in button">Login</button>
     </form>
   </div>
 </template>
