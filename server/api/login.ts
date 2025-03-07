@@ -14,10 +14,10 @@ export default defineEventHandler(async (event) => {
   const cookies = parseCookies(event);
   const token = cookies.session;
   console.log(JSON.stringify(body));
+  const { paintApi } = usePaintApi(token);
 
   try {
     const userId = 4201;
-    const paintApi = usePaintApi(token);
     const response = await paintApi.users.getLogin(userId);
     if (!('token' in response)) {
       response satisfies ErrorModel;
