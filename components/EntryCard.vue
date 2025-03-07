@@ -41,7 +41,7 @@ import type { CollectionPaintDetails } from '~/server/utils/openapi';
   align-items: center;
   width: 100%;
   gap: 1rem;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--tea);
   height: fit-content;
 }
 button {
