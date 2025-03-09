@@ -1,5 +1,5 @@
 <template>
-  <button v-for="collection in collectionList" :key="collection.id" class="entry-card transparent">
+  <button @click="openDialog" v-for="collection in collectionList" :key="collection.id" class="entry-card transparent">
     <LabelledField>
       <p>{{ collection.quantity }}x</p>
     </LabelledField>
@@ -17,12 +17,36 @@
       }"></div>
     </LabelledField>
   </button>
+
+  <BaseDialog ref="dialog">
+    <template #title>
+      Update color
+    </template>
+    <form>
+      <label for="amount">Amount</label>
+      <input v-model="amount" type="number" placeholder="Amount" required />
+      <ChooseColor @update:chosenPaint="handleChosenPaint" />
+      <button type="submit">Update</button>
+    </form>
+  </BaseDialog>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { CollectionPaintDetails } from '~/server/utils/openapi';
+  import type { BaseDialog } from '#components';
+  import { ref } from 'vue';
+  import type { CollectionPaintDetails, PaintOutputDetails } from '~/server/utils/openapi';
   const collectionList = ref<CollectionPaintDetails[]>([]);
+  
+  const amount = ref<number | null>(null);
+  const color = ref<PaintOutputDetails | null>(null);
+  const dialog = ref<InstanceType<typeof BaseDialog> | null>(null);
+
+  function openDialog() {
+    dialog.value?.openDialog();
+  }
+  function handleChosenPaint(chosenPaint: PaintOutputDetails) {
+    color.value = chosenPaint;
+  }
 
   onMounted(() => {
     fetchCollectionList();
@@ -32,9 +56,15 @@ import type { CollectionPaintDetails } from '~/server/utils/openapi';
     const response = await $fetch('/api/listCollection');
     collectionList.value = response;
   }
-  </script>
+</script>
 
 <style scoped>
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
 .entry-card {
   display: grid;
   grid-template-columns: 1fr 4fr 4fr 1fr auto;
