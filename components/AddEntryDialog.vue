@@ -19,7 +19,7 @@
 import { ref } from 'vue';
 import BaseDialog from './base/BaseDialog.vue';
 
-const { amount } = useEntryForm();
+const amount = ref<number | null>(null);
 const dialog = ref<InstanceType<typeof BaseDialog> | null>(null);
 
 function openDialog() {
@@ -28,12 +28,6 @@ function openDialog() {
 
 function addEntry() {
   dialog.value?.closeDialog(new Event('close'));
-}
-
-function useEntryForm() {
-  const amount = ref('');
-
-  return { amount };
 }
 </script>
 
