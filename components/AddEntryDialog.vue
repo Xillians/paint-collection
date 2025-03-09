@@ -6,7 +6,7 @@
     <template #title>
       Add Entry
     </template>
-    <form @submit.prevent="addEntry">
+    <form @submit.prevent="handleAddEntry">
       <label for="amount">Amount</label>
       <input v-model="amount" type="number" placeholder="Amount" required />
       <ChooseColor @update:chosenPaint="handleChosenPaint" />
@@ -18,7 +18,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import BaseDialog from './base/BaseDialog.vue';
-import type { PaintOutputDetails } from '~/server/utils/openapi';
+import type { AddToCollectionInputBody, PaintOutputDetails } from '~/server/utils/openapi';
+const { addEntry, updateList } = useColorState();
 
 const amount = ref<number | null>(null);
 const color = ref<PaintOutputDetails | null>(null);
@@ -31,8 +32,22 @@ function handleChosenPaint(chosenPaint: PaintOutputDetails) {
   color.value = chosenPaint;
 }
 
-function addEntry() {
-  dialog.value?.closeDialog(new Event('close'));
+async function handleAddEntry() {
+  if (!color.value || !amount.value) return;
+  try {
+    const input: AddToCollectionInputBody = {
+      paint_id: color.value.id,
+      quantity: amount.value,
+    };
+    await addEntry(input);
+    console.log('Entry added');
+    await updateList();
+    console.log('List updated');
+  } catch (error) {
+    console.error(error);
+  } finally {
+    dialog.value?.closeDialog(new Event('close'));
+  }
 }
 </script>
 
