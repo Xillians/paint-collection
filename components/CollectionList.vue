@@ -1,16 +1,11 @@
 <template>
   <div class="entry-list">
     <EntryCard />
-    <button aria-label="add entry" class="transparent">
-      <h2>+</h2>
-    </button>
+    <AddEntryDialog />
   </div>
 </template>
 
 <style scoped>
-h2 {
-  margin: 0;
-}
 .entry-list {
   display: flex;
   flex-direction: column;
