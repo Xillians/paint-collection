@@ -52,13 +52,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-  h2 {
-    margin: 0;
-  }
-  button {
-    width: fit-content;
-    align-self: center;
-  }
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
