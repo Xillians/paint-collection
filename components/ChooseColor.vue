@@ -11,7 +11,7 @@
     <div class="input">
       <label for="color">Color</label>
       <select v-model="chosenPaint">
-        <option v-for="paint in filteredPaints" :key="paint.id" :value="paint.id">
+        <option v-for="paint in filteredPaints" :key="paint.id" :value="paint">
          {{ paint.name }}
         </option>
       </select>
@@ -20,16 +20,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, defineEmits } from 'vue';
 import type { PaintBrands, PaintOutputDetails } from '~/server/utils/openapi';
 
 const paints = ref<PaintOutputDetails[]>([]);
 const brands = ref<PaintBrands[]>([]);
 const chosenBrand = ref('');
-const chosenPaint = ref('');
+const chosenPaint = ref<PaintOutputDetails | null>(null);
 
 const filteredPaints = computed(() => {
   return paints.value.filter((paint) => paint.brand.id === Number(chosenBrand.value));
+});
+
+
+const emit = defineEmits(['update:chosenPaint']);
+
+watch(chosenPaint, (newValue) => {
+  emit('update:chosenPaint', newValue);
 });
 
 onMounted(async () => {
