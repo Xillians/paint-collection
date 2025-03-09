@@ -52,21 +52,21 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-h2 {
-  margin: 0;
-}
-button {
-  width: fit-content;
-  align-self: center;
-}
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-.input {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+  h2 {
+    margin: 0;
+  }
+  button {
+    width: fit-content;
+    align-self: center;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .input {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 </style>
