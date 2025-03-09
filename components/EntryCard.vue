@@ -1,5 +1,5 @@
 <template>
-  <button @click="openDialog" v-for="collection in collectionList" :key="collection.id" class="entry-card transparent">
+  <button @click="openDialog" v-for="collection in colors" :key="collection.id" class="entry-card transparent">
     <LabelledField>
       <p>{{ collection.quantity }}x</p>
     </LabelledField>
@@ -34,9 +34,8 @@
 <script setup lang="ts">
   import type { BaseDialog } from '#components';
   import { ref } from 'vue';
-  import type { CollectionPaintDetails, PaintOutputDetails } from '~/server/utils/openapi';
-  const collectionList = ref<CollectionPaintDetails[]>([]);
-  
+  import type { PaintOutputDetails } from '~/server/utils/openapi';
+  const {colors, updateList, } = useColorState();
   const amount = ref<number | null>(null);
   const color = ref<PaintOutputDetails | null>(null);
   const dialog = ref<InstanceType<typeof BaseDialog> | null>(null);
@@ -48,14 +47,9 @@
     color.value = chosenPaint;
   }
 
-  onMounted(() => {
-    fetchCollectionList();
+  onMounted(async () => {
+    await updateList();
   });
-
-  async function fetchCollectionList() {
-    const response = await $fetch('/api/listCollection');
-    collectionList.value = response;
-  }
 </script>
 
 <style scoped>
