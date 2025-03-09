@@ -19,7 +19,7 @@
 import { ref } from 'vue';
 import BaseDialog from './base/BaseDialog.vue';
 import type { AddToCollectionInputBody, PaintOutputDetails } from '~/server/utils/openapi';
-const { addEntry, updateList } = useColorState();
+const { collection } = useColorState;
 
 const amount = ref<number | null>(null);
 const color = ref<PaintOutputDetails | null>(null);
@@ -39,8 +39,11 @@ async function handleAddEntry() {
       paint_id: color.value.id,
       quantity: amount.value,
     };
-    await addEntry(input);
-    await updateList();
+    await $fetch('/api/collection/addCollectionEntry', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+    collection.value = await $fetch('/api/listCollection');
   } catch (error) {
     console.error(error);
   } finally {
