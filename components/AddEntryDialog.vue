@@ -40,9 +40,7 @@ async function handleAddEntry() {
       quantity: amount.value,
     };
     await addEntry(input);
-    console.log('Entry added');
     await updateList();
-    console.log('List updated');
   } catch (error) {
     console.error(error);
   } finally {
