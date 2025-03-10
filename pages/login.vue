@@ -12,14 +12,55 @@ import {
   type CredentialResponse,
 } from "vue3-google-signin";
 import type { LoginBody } from '~/server/api/login';
+import type { RegisterBody } from '~/server/api/registerUser';
 
 
 const auth = useAuthState();
 const router = useRouter();
 const loginError = ref<string | null>(null);
+const registerError = ref<string | null>(null);
 
 if (auth.value.isLoggedIn) {
   router.push('/');
+}
+
+async function logIn(credentials: string) {
+  const input: LoginBody = {
+    client_id: credentials,
+  };
+  await $fetch('/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(input),
+    onResponseError: ({response}) => {
+      console.log("Login error", response._data.message);
+      loginError.value = response._data.message;
+    },
+  });
+  if (loginError.value) {
+    loginError.value = null;
+    return;
+  }
+}
+async function registerUser(input: RegisterBody) {
+    await $fetch('/api/registerUser ', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(input),
+      onResponseError: ({response}) => {
+        console.log("Register error", response._data.message);
+        registerError.value = response._data.message;
+      },
+    });
+    if (registerError.value) {
+      console.log("Register error", registerError.value);
+      registerError.value = null;
+      return;
+    }
 }
 
 async function onSuccess(response: CredentialResponse) {
@@ -27,26 +68,22 @@ async function onSuccess(response: CredentialResponse) {
   if(!credential) {
     return;
   }
-  const input: LoginBody = {
-    client_id: credential,
-  };
-
-  await $fetch('/api/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(input),
-    onResponseError: (response) => {
-      loginError.value = response.error?.toString() || 'Login failed';
-    },
-  });
-  if (loginError.value) {
-    return;
+  try {
+    await logIn(credential);
+  } catch (error) {
+    await registerUser({credential});
+    if (registerError.value) {
+      return;
+    }
+    await logIn(credential);
+  } finally {
+    if (!loginError.value) {
+      auth.value.isLoggedIn = true;
+      router.push('/');
+    }
+    loginError.value = null;
+    registerError.value = null;
   }
-  auth.value.isLoggedIn = true;
-  loginError.value = null;
-  router.push('/');
 }
 
 async function onError(error: any) {
