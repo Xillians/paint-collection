@@ -1,44 +1,56 @@
 <template>
-  <div>
-    <h1>Login</h1>
-    <form @submit.prevent="login">
-      <input type="text" v-model="username" placeholder="Username" />
-      <input type="password" v-model="password" placeholder="Password" />
-      <button type="submit" aria-label="Log in button">Login</button>
-    </form>
-  </div>
+  <GoogleSignInButton 
+    @success="onSuccess" 
+    @error="onError" 
+  />
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthState } from '#imports';
-const username = ref('');
-const password = ref('');
+import {
+  type CredentialResponse,
+} from "vue3-google-signin";
+import type { LoginBody } from '~/server/api/login';
+
+
 const auth = useAuthState();
 const router = useRouter();
+const loginError = ref<string | null>(null);
 
 if (auth.value.isLoggedIn) {
   router.push('/');
 }
-  
-async function login() {
-  try {
-    await $fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: {
-        username: username.value,
-        password: password.value,
-      },
-    });
-    auth.value.isLoggedIn = true;
-    router.push('/');
-  } catch (error) {
-    console.error('Login failed', error);
+
+async function onSuccess(response: CredentialResponse) {
+  const { credential } = response;
+  if(!credential) {
+    return;
   }
+  const input: LoginBody = {
+    client_id: credential,
+  };
+
+  await $fetch('/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(input),
+    onResponseError: (response) => {
+      loginError.value = response.error?.toString() || 'Login failed';
+    },
+  });
+  if (loginError.value) {
+    return;
+  }
+  auth.value.isLoggedIn = true;
+  loginError.value = null;
+  router.push('/');
+}
+
+async function onError(error: any) {
+  console.error(error);
 }
 </script>
 

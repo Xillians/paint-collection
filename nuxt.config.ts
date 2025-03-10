@@ -7,5 +7,11 @@ export default defineNuxtConfig({
       pathPrefix: false,
     }
   ],
+  modules: [
+    'nuxt-vue3-google-signin',
+  ],
+  googleSignIn: {
+    clientId: '158010152095-f0333sstbfhanaosmkegsf1i21l37m9i.apps.googleusercontent.com'
+  },
   devtools: { enabled: true }
 })
