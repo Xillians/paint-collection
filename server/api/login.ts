@@ -3,21 +3,36 @@ import { setCookie } from 'h3';
 import { usePaintApi } from '~/composables/paintApi';
 import { LoginOutputBody } from '../utils/openapi';
 import { differenceInSeconds, parseISO } from 'date-fns';
+import { jwtDecode } from 'jwt-decode';
 
-type LoginBody = {
-  username: string;
-  password: string;
+export type LoginBody = {
+  client_id: string;
 };
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<LoginBody>(event);
   const cookies = parseCookies(event);
   const token = cookies.session;
-  console.log(JSON.stringify(body));
   const { paintApi, parseApiResponse, parseError } = usePaintApi(token);
 
+  if (!body.client_id) {
+    throw createError({
+      status: 400,
+      message: "Client ID is required"
+    });
+  }
+
+  // use jwt-decode to read the sub of the jwt that is the user id
+  const decodedToken = jwtDecode(body.client_id);
+  const userId = decodedToken.sub;
+  if (!userId) {
+    throw createError({
+      status: 400,
+      message: "Invalid token"
+    });
+  }
+
   try {
-    const userId = 4201;
     const response = await paintApi.users.getLogin(userId);
     const parsedResponse = parseApiResponse<LoginOutputBody>(response);
     const { token, expires_at } = parsedResponse;

@@ -29,7 +29,7 @@ export class UsersService {
      * @throws ApiError
      */
     public getLogin(
-        id: number,
+        id: string,
     ): CancelablePromise<LoginOutputBody | ErrorModel> {
         return this.httpRequest.request({
             method: 'GET',
