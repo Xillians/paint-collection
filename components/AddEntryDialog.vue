@@ -36,6 +36,7 @@ function handleChosenPaint(chosenPaint: PaintOutputDetails) {
 
 async function handleAddEntry(event: Event) {
   if (!color.value || !amount.value) return;
+
   const input: AddToCollectionInputBody = {
     paint_id: color.value.id,
     quantity: amount.value,
@@ -47,8 +48,11 @@ async function handleAddEntry(event: Event) {
       error.value = response._data.message;
     },
   });
+
   const response = await $fetch('/api/collection/listCollection');
   collection.value = response;
+  
+  error.value = null;
   dialog.value?.closeDialog(event);
 }
 </script>
