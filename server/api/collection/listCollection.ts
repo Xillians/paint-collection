@@ -1,5 +1,5 @@
 import { usePaintApi } from "~/composables/paintApi";
-import { ListPaintCollectionOutputBody } from "../utils/openapi";
+import { ListPaintCollectionOutputBody } from "~/server/utils/openapi";
 
 export default defineEventHandler(async (event) => {
   const session = parseCookies(event).session;
