@@ -43,7 +43,8 @@ async function handleAddEntry() {
       method: 'POST',
       body: JSON.stringify(input),
     });
-    collection.value = await $fetch('/api/listCollection');
+    const response = await $fetch('/api/collection/listCollection');
+    collection.value = response;
   } catch (error) {
     console.error(error);
   } finally {

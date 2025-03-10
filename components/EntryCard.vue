@@ -1,5 +1,5 @@
 <template>
-  <button @click="openDialog" v-for="collection in collection" :key="collection.id" class="entry-card transparent">
+  <button @click="() => openDialog(collection.id)" v-for="collection in collection" :key="collection.id" class="entry-card transparent">
     <LabelledField>
       <p>{{ collection.quantity }}x</p>
     </LabelledField>
@@ -17,7 +17,6 @@
       }"></div>
     </LabelledField>
   </button>
-
   <BaseDialog ref="dialog">
     <template #title>
       Update color
@@ -26,7 +25,10 @@
       <label for="amount">Amount</label>
       <input v-model="amount" type="number" placeholder="Amount" required />
       <ChooseColor @update:chosenPaint="handleChosenPaint" />
-      <button type="submit">Update</button>
+      <div class="buttons">
+        <button aria-label="update entry" type="submit">Update</button>
+        <button aria-label="delete entry" @click="handleDelete">Delete</button>
+      </div>
     </form>
   </BaseDialog>
 </template>
@@ -41,16 +43,32 @@
   const amount = ref<number | null>(null);
   const color = ref<PaintOutputDetails | null>(null);
   const dialog = ref<InstanceType<typeof BaseDialog> | null>(null);
+  const currentCollectionId = ref<number | null>(null);
 
-  function openDialog() {
+  function openDialog(id: number) {
+    currentCollectionId.value = id;
     dialog.value?.openDialog();
   }
   function handleChosenPaint(chosenPaint: PaintOutputDetails) {
     color.value = chosenPaint;
   }
+  async function handleDelete() {
+    console.log(currentCollectionId.value);
+    if (!currentCollectionId.value) return;
+    try {
+      await $fetch(`/api/collection/${currentCollectionId.value}/deleteEntry`, {
+        method: 'DELETE',
+      });
+      const response = await $fetch('/api/collection/listCollection');
+      collection.value = response;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   onMounted(async () => {
-    collection.value = await $fetch('/api/listCollection');
+    const reponse = await $fetch('/api/collection/listCollection');
+    collection.value = reponse;
   });
 </script>
 
@@ -69,5 +87,9 @@ form {
   gap: 1rem;
   border-bottom: 1px solid var(--button-background);
   height: fit-content;
+}
+.buttons {
+  display: flex;
+  gap: 1rem;
 }
 </style>
