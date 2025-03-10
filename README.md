@@ -1,75 +1,71 @@
-# Nuxt Minimal Starter
+# Paint Collection
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Table of Contents
 
-## Setup
+- [Paint Collection](#paint-collection)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Quick Start Guide](#quick-start-guide)
+  - [Local Development](#local-development)
+    - [API Backend](#api-backend)
+  - [Deployment](#deployment)
+    - [Manual deployment](#manual-deployment)
+  - [Production](#production)
 
-Make sure to install dependencies:
+## Overview
 
-```bash
-# npm
-npm install
+Paint Collection is a web application that allows users to manage and explore a collection of paints. Users can add, edit, and delete paint entries, as well as view detailed information about each paint.
 
-# pnpm
-pnpm install
+## Features
 
-# yarn
-yarn install
+- Add, edit, and delete paint entries
+- User authentication and authorization
+- Responsive design
 
-# bun
-bun install
+## Quick Start Guide
+
+To install and run this app, follow these steps:
+
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/yourusername/paint-collection.git
+    cd paint-collection
+    ```
+
+2. Install dependencies:
+    ```sh
+    pnpm install
+    ```
+
+3. Start the development server:
+    ```sh
+    pnpm dev
+    ```
+
+4. Open your browser and navigate to `http://localhost:3000`
+
+## Local Development
+
+### API Backend
+
+The documentation for the backend API can be found [here](https://paint-api-v2.fly.dev/docs). 
+If you want to contribute to this api, you can find the github project [here](https://github.com/Xillians/paint-api-v2)
+
+## Deployment
+
+This application is deployed via GitHub Actions to Fly.io. The deployment pipeline is defined in the .github/workflows directory.
+
+### Manual deployment
+
+In order to deploy to fly.io manually, you need to use the [fly cli](https://fly.io/docs/flyctl/).
+After logging in, if you have access to the project, you can run this command.
+
+```sh
+fly deploy
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
+This will run the dockerfile to build and deploy the application.
 
 ## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+The application's production environment can be found at [this URL](https://paint-collection.fly.dev/).
