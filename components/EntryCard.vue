@@ -52,7 +52,7 @@
   function handleChosenPaint(chosenPaint: PaintOutputDetails) {
     color.value = chosenPaint;
   }
-  async function handleDelete() {
+  async function handleDelete(event: Event) {
     if (!currentCollectionId.value) return;
     try {
       await $fetch(`/api/collection/${currentCollectionId.value}/deleteEntry`, {
@@ -60,6 +60,7 @@
       });
       const response = await $fetch('/api/collection/listCollection');
       collection.value = response;
+      dialog.value?.closeDialog(event);
     } catch (error) {
       console.error(error);
     }
