@@ -6,7 +6,7 @@ export default defineEventHandler((event) => {
       statusMessage: 'Bad Request',
     });
   }
-  if (reqUrl === '/api/login' || !reqUrl.startsWith('/api')) {
+  if (reqUrl === '/api/login' || reqUrl === '/api/registerUser' || !reqUrl.startsWith('/api')) {
     return;
   }
 
