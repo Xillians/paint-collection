@@ -7,8 +7,8 @@ export default defineEventHandler(async (event) => {
 
   try {
 
-    const requestBody = event._requestBody as string | undefined;
-    if (!requestBody) {
+    const input: UpdateCollectionEntryInputBody = await readBody(event);
+    if (!input) {
       throw createError({
         status: 400,
         message: "Request body is missing"
@@ -16,11 +16,9 @@ export default defineEventHandler(async (event) => {
     }
     const id = event.context.params?.id;
 
-    const input: UpdateCollectionEntryInputBody = JSON.parse(requestBody);
     const response = await paintApi.collection.putCollection(Number(id), input);
     const parsedResponse = parseApiResponse<CollectionPaintDetails>(response);
     return parsedResponse;
-
   } catch (error: any) {
     const err = parseError(error);
     if (err) {
