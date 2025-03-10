@@ -32,14 +32,11 @@ export function usePaintApi(token: string) {
 
   function parseError(err: unknown): ErrorModel | null {
     const schemaValue = "https://paint-api-v2.fly.dev/schemas/ErrorModel.json";
-    if (
-      typeof err === 'object'
-      && err !== null
-      && "$schema" in err
-      && (err as any).$schema === schemaValue
-    ) {
-      const error = err as ErrorModel;
-      return error;
+    if (typeof err === 'object' && err !== null && 'body' in err) {
+      const errBody = (err as { body: ErrorModel }).body;
+      if (errBody.$schema?.includes(schemaValue)) {
+        return errBody;
+      }
     }
     return null;
   }
