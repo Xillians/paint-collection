@@ -50,6 +50,7 @@ async function handleDelete(event: Event) {
   const response = await $fetch('/api/collection/listCollection');
   collection.value = response;
 
+  error.value = null;
   dialog.value?.closeDialog(event);
 }
 
@@ -71,6 +72,7 @@ async function handleUpdate(event: Event) {
   const updatedCollection = await $fetch('/api/collection/listCollection');
   collection.value = updatedCollection;
 
+  error.value = null;
   dialog.value?.closeDialog(event);
 }
 
