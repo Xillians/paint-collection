@@ -6,6 +6,7 @@
     <template #title>
       Add Entry
     </template>
+    <p v-if="error" class="error">{{ error }}</p>
     <form @submit.prevent="handleAddEntry">
       <label for="amount">Amount</label>
       <input v-model="amount" type="number" placeholder="Amount" required />
@@ -24,6 +25,7 @@ const { collection } = useColorState;
 const amount = ref<number | null>(null);
 const color = ref<PaintOutputDetails | null>(null);
 const dialog = ref<InstanceType<typeof BaseDialog> | null>(null);
+const error = ref<string | null>(null);
 
 function openDialog() {
   dialog.value?.openDialog();
@@ -32,24 +34,22 @@ function handleChosenPaint(chosenPaint: PaintOutputDetails) {
   color.value = chosenPaint;
 }
 
-async function handleAddEntry() {
+async function handleAddEntry(event: Event) {
   if (!color.value || !amount.value) return;
-  try {
-    const input: AddToCollectionInputBody = {
-      paint_id: color.value.id,
-      quantity: amount.value,
-    };
-    await $fetch('/api/collection/addCollectionEntry', {
-      method: 'POST',
-      body: JSON.stringify(input),
-    });
-    const response = await $fetch('/api/collection/listCollection');
-    collection.value = response;
-  } catch (error) {
-    console.error(error);
-  } finally {
-    dialog.value?.closeDialog(new Event('close'));
-  }
+  const input: AddToCollectionInputBody = {
+    paint_id: color.value.id,
+    quantity: amount.value,
+  };
+  await $fetch('/api/collection/addCollectionEntry', {
+    method: 'POST',
+    body: JSON.stringify(input),
+    onResponseError: ({response}) => {
+      error.value = response._data.message;
+    },
+  });
+  const response = await $fetch('/api/collection/listCollection');
+  collection.value = response;
+  dialog.value?.closeDialog(event);
 }
 </script>
 
@@ -69,5 +69,8 @@ form {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.error {
+  color: red;
 }
 </style>
