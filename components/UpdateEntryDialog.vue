@@ -4,13 +4,13 @@
       Update color
     </template>
     <p v-if="error">{{ error }}</p>
-    <form>
+    <form @submit.prevent="">
       <label for="amount">Amount</label>
       <input v-model="amount" type="number" placeholder="Amount" required />
       <ChooseColor @update:chosenPaint="handleChosenPaint" />
       <div class="buttons">
-        <button aria-label="update entry" @click="handleUpdate">Update</button>
-        <button aria-label="delete entry" @click="handleDelete">Delete</button>
+        <button aria-label="update entry" @click="handleUpdate" type="submit">Update</button>
+        <button aria-label="delete entry" @click="handleDelete" type="submit">Delete</button>
       </div>
     </form>
   </BaseDialog>
