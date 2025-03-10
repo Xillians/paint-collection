@@ -53,7 +53,6 @@
     color.value = chosenPaint;
   }
   async function handleDelete() {
-    console.log(currentCollectionId.value);
     if (!currentCollectionId.value) return;
     try {
       await $fetch(`/api/collection/${currentCollectionId.value}/deleteEntry`, {
