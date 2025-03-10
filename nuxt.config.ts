@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   components: [
@@ -11,7 +12,7 @@ export default defineNuxtConfig({
     'nuxt-vue3-google-signin',
   ],
   googleSignIn: {
-    clientId: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+    clientId: process.env.NUXT_GOOGLE_CLIENT_ID,
   },
   devtools: { enabled: true }
 })
