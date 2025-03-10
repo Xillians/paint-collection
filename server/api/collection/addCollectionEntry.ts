@@ -8,6 +8,25 @@ export default defineEventHandler(async (event) => {
 
   try {
     const body: AddToCollectionInputBody = await readBody(event);
+    if (!body.paint_id) {
+      throw createError({
+        status: 400,
+        message: "paint_id is required"
+      });
+    }
+    if (!body.quantity) {
+      throw createError({
+        status: 400,
+        message: "quantity is required"
+      });
+    }
+    if (body.quantity < 1) {
+      throw createError({
+        status: 400,
+        message: "quantity must be greater than 0"
+      });
+    }
+
     const response = await paintApi.collection.postCollection(body);
     const parsedResponse = parseApiResponse<CollectionPaintDetails>(response);
     return parsedResponse;
@@ -20,8 +39,8 @@ export default defineEventHandler(async (event) => {
       });
     }
     throw createError({
-      status: 500,
-      message: error.message
+      status: error.statusCode || 500,
+      message: error.cause.message || "Internal server error"
     });
   }
 });
