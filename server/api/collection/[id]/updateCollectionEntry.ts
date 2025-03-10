@@ -14,6 +14,25 @@ export default defineEventHandler(async (event) => {
         message: "Request body is missing"
       });
     }
+    if (!input.paint_id) {
+      throw createError({
+        status: 400,
+        message: "Paint ID is missing"
+      });
+    }
+    if (!input.quantity) {
+      throw createError({
+        status: 400,
+        message: "Amount is missing"
+      });
+    }
+    if (input.quantity < 0) {
+      throw createError({
+        status: 400,
+        message: "Amount must be greater than or equal to 0"
+      });
+    }
+
     const id = event.context.params?.id;
 
     const response = await paintApi.collection.putCollection(Number(id), input);
