@@ -18,8 +18,8 @@ export default defineEventHandler(async (event) => {
       });
     }
     throw createError({
-      status: 500,
-      message: error.message
+      status: error.statusCode || 500,
+      message: error.cause.message || "Internal server error"
     });
   }
 });
