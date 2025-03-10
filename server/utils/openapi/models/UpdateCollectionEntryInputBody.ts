@@ -7,6 +7,7 @@ export type UpdateCollectionEntryInputBody = {
      * A URL to the JSON Schema for this object.
      */
     readonly $schema?: string;
+    paint_id: number;
     quantity: number;
 };
 
