@@ -10,8 +10,13 @@ export default defineNuxtConfig({
   modules: [
     'nuxt-vue3-google-signin',
   ],
-  googleSignIn: {
-    clientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID,
+  runtimeConfig: {
+    public: {
+      googleSignIn: {
+        clientId: process.env.GOOGLE_SIGN_IN || ''
+      }
+    }
   },
+
   devtools: { enabled: true }
 })
