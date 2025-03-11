@@ -1,7 +1,18 @@
 <template>
   <div class="grid">
     <div class="input">
-      <label for="brand">Brand</label>
+      <div class="button-header">
+        <label for="brand">Brand</label>
+        <button class="transparent" type="button" @click="handleAddBrand">
+          <AkPlus/>
+        </button>
+        <button v-if="chosenBrand" type="button" class="transparent" @click="handleEditBrand">
+          <AkEdit/>
+        </button>
+        <button v-if="chosenBrand" type="button" class="transparent" @click="handleDeleteBrand">
+          <IcTrash/>
+        </button>
+      </div>
       <select v-model="chosenBrand">
         <option v-for="brand in brands" :key="brand.id" :value="brand.id">
           {{ brand.name }}
@@ -9,7 +20,18 @@
       </select>
     </div>
     <div class="input">
-      <label for="color">Color</label>
+      <div class="button-header">
+        <label for="color">Color</label>
+        <button class="transparent" type="button" @click="handleAddPaint">
+          <AkPlus/>
+        </button>
+        <button v-if="chosenPaint" type="button" class="transparent" @click="handleEditPaint">
+          <AkEdit/>
+        </button>
+        <button v-if="chosenPaint" type="button" class="transparent" @click="handleDeletePaint">
+          <IcTrash/>
+        </button>
+      </div>
       <select v-model="chosenPaint">
         <option v-for="paint in filteredPaints" :key="paint.id" :value="paint">
          {{ paint.name }}
@@ -20,13 +42,14 @@
 </template>
 
 <script setup lang="ts">
+import { AkEdit } from '@kalimahapps/vue-icons';
+import { AkPlus } from '@kalimahapps/vue-icons';
+import { IcTrash } from '@kalimahapps/vue-icons';
 import { ref, computed, onMounted, defineEmits } from 'vue';
 import type { PaintBrands, PaintOutputDetails } from '~/server/utils/openapi';
+const { brands, chosenBrand, handleAddBrand, handleDeleteBrand, handleEditBrand } = useBrand();
+const { paints, chosenPaint, handleAddPaint, handleDeletePaint, handleEditPaint } = usePaint();
 
-const paints = ref<PaintOutputDetails[]>([]);
-const brands = ref<PaintBrands[]>([]);
-const chosenBrand = ref('');
-const chosenPaint = ref<PaintOutputDetails | null>(null);
 
 const filteredPaints = computed(() => {
   return paints.value.filter((paint) => paint.brand.id === Number(chosenBrand.value));
@@ -49,9 +72,61 @@ onMounted(async () => {
     paints.value = [];
   }
 });
+
+function usePaint() {
+  const paints = ref<PaintOutputDetails[]>([]);
+  const chosenPaint = ref<PaintOutputDetails | null>(null);
+
+  function handleAddPaint() {
+    // adding a new paint
+  }
+  function handleDeletePaint() {
+    // deleting the paint 
+  }
+  function handleEditPaint() {
+    // editing the paint. This should probably open up a sub-component
+  }
+  return {
+    paints,
+    chosenPaint,
+    handleAddPaint,
+    handleDeletePaint,
+    handleEditPaint,
+  };
+}
+
+function useBrand() {
+  const brands = ref<PaintBrands[]>([]);
+  const chosenBrand = ref('');
+
+  function handleAddBrand() {
+    // adding a new brand
+  }
+  function handleDeleteBrand() {
+    // deleting the brand 
+  }
+  function handleEditBrand() {
+    // editing the brand. This should probably open up a sub-component
+  }
+  return {
+    brands,
+    chosenBrand,
+    handleAddBrand,
+    handleDeleteBrand,
+    handleEditBrand,
+  };
+}
 </script>
 
 <style scoped>
+  h2 {
+    font-size: 12px;
+    margin: 0;
+  }
+  button {
+    padding: 0.2em;
+    color: var(--text-color);
+  }
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -61,5 +136,10 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
+  .button-header {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 5px;
   }
 </style>

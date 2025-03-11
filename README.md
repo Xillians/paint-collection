@@ -8,6 +8,7 @@
   - [Features](#features)
   - [Quick Start Guide](#quick-start-guide)
   - [Local Development](#local-development)
+    - [Icons](#icons)
     - [API Backend](#api-backend)
   - [Deployment](#deployment)
     - [Manual deployment](#manual-deployment)
@@ -46,6 +47,11 @@ To install and run this app, follow these steps:
 4. Open your browser and navigate to `http://localhost:3000`
 
 ## Local Development
+
+### Icons
+
+This app uses @kalimah/vue-icons to add icons. you can find more icons 
+[here](https://vue-icons.kalimah-apps.com/search-icons.html)
 
 ### API Backend
 

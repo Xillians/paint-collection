@@ -11,6 +11,7 @@
     "generate:api": "openapi -i https://paint-api-v2.fly.dev/openapi.yaml -o ./server/utils/openapi --name PaintAPI"
   },
   "dependencies": {
+    "@kalimahapps/vue-icons": "^1.7.1",
     "date-fns": "^4.1.0",
     "jwt-decode": "^4.0.0",
     "nuxt": "^3.15.4",
