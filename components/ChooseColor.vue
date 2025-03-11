@@ -13,8 +13,8 @@
           <IcTrash/>
         </button>
       </div>
-      <select v-model="chosenBrand">
-        <option v-for="brand in brands" :key="brand.id" :value="brand.id">
+      <select v-model="chosenBrand" aria-label="choose brand">
+        <option v-for="brand in brands" :key="brand.id" :value="brand.id" :aria-label="brand.name">
           {{ brand.name }}
         </option>
       </select>
@@ -32,8 +32,8 @@
           <IcTrash/>
         </button>
       </div>
-      <select v-model="chosenPaint">
-        <option v-for="paint in filteredPaints" :key="paint.id" :value="paint">
+      <select v-model="chosenPaint" aria-label="choose paint color">
+        <option v-for="paint in filteredPaints" :key="paint.id" :value="paint" :aria-label="paint.name">
          {{ paint.name }}
         </option>
       </select>
