@@ -3,13 +3,13 @@
     <div class="input">
       <div class="button-header">
         <label for="brand">Brand</label>
-        <button class="transparent" type="button" @click="handleAddBrand">
+        <button class="transparent" aria-label="Add new brand" type="button" @click="handleAddBrand">
           <AkPlus/>
         </button>
-        <button v-if="chosenBrand" type="button" class="transparent" @click="handleEditBrand">
+        <button v-if="chosenBrand" aria-label="Edit brand" type="button" class="transparent" @click="handleEditBrand">
           <AkEdit/>
         </button>
-        <button v-if="chosenBrand" type="button" class="transparent" @click="handleDeleteBrand">
+        <button v-if="chosenBrand" aria-label="Delete brand" type="button" class="transparent" @click="handleDeleteBrand">
           <IcTrash/>
         </button>
       </div>
@@ -22,13 +22,13 @@
     <div class="input">
       <div class="button-header">
         <label for="color">Color</label>
-        <button class="transparent" type="button" @click="handleAddPaint">
+        <button class="transparent" aria-label="Add new color" type="button" @click="handleAddPaint">
           <AkPlus/>
         </button>
-        <button v-if="chosenPaint" type="button" class="transparent" @click="handleEditPaint">
+        <button v-if="chosenPaint" aria-label="Edit color" type="button" class="transparent" @click="handleEditPaint">
           <AkEdit/>
         </button>
-        <button v-if="chosenPaint" type="button" class="transparent" @click="handleDeletePaint">
+        <button v-if="chosenPaint" aria-label="Delete color" type="button" class="transparent" @click="handleDeletePaint">
           <IcTrash/>
         </button>
       </div>
