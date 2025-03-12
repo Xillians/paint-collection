@@ -14,7 +14,7 @@ import {
 import type { LoginBody } from '~/server/api/login';
 import type { RegisterBody } from '~/server/api/registerUser';
 
-
+const role = useCookie('role', { httpOnly: true, secure: true });
 const auth = useAuthState();
 const router = useRouter();
 const loginError = ref<string | null>(null);
@@ -28,7 +28,7 @@ async function logIn(credentials: string) {
   const input: LoginBody = {
     client_id: credentials,
   };
-  await $fetch('/api/login', {
+  const res = await $fetch('/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,6 +43,7 @@ async function logIn(credentials: string) {
     loginError.value = null;
     return;
   }
+  role.value = res.body.role;
 }
 async function registerUser(input: RegisterBody) {
     await $fetch('/api/registerUser ', {
@@ -75,7 +76,6 @@ async function onSuccess(response: CredentialResponse) {
     if (registerError.value) {
       return;
     }
-    await logIn(credential);
   } finally {
     if (!loginError.value) {
       auth.value.isLoggedIn = true;

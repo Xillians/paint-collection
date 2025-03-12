@@ -9,6 +9,12 @@ export type LoginBody = {
   client_id: string;
 };
 
+type JWTPayload = {
+  sub: string;
+  role: string;
+  exp: number;
+}
+
 export default defineEventHandler(async (event) => {
   const body = await readBody<LoginBody>(event);
   const cookies = parseCookies(event);
@@ -37,6 +43,14 @@ export default defineEventHandler(async (event) => {
     const parsedResponse = parseApiResponse<LoginOutputBody>(response);
     const { token, expires_at } = parsedResponse;
 
+    const decodedToken = jwtDecode<JWTPayload>(token);
+    if (!decodedToken.role) {
+      throw createError({
+        status: 400,
+        message: "Invalid token"
+      });
+    }
+
     // A hack with date-fns and non-standard date format
     const expiresAtString = expires_at.split(' ')[0] + 'T' + expires_at.split(' ')[1];
 
@@ -59,6 +73,12 @@ export default defineEventHandler(async (event) => {
       sameSite: 'strict',
       maxAge: maxAge
     });
+    return {
+      body: {
+        message: "Login successful",
+        role: decodedToken.role
+      }
+    }
   } catch (error: any) {
     const apiError = parseError(error);
     if (apiError) {
