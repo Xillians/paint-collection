@@ -66,8 +66,10 @@ onMounted(async () => {
   try {
     const paintResponse = await fetch('/api/listPaints');
     paints.value = await paintResponse.json();
+    paints.value.sort((a, b) => a.name.localeCompare(b.name));
     const brandResponse = await fetch('/api/listBrands');
     brands.value = await brandResponse.json();
+    brands.value.sort((a, b) => a.name.localeCompare(b.name));
   } catch (error) {
     paints.value = [];
   }
