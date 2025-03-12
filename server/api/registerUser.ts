@@ -50,22 +50,10 @@ export default defineEventHandler(async (event) => {
     const expiresAt = parseISO(expiresAtString);
     const now = new Date();
     const maxAge = differenceInSeconds(expiresAt, now);
-
-    setCookie(event, 'session', token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-      path: '/',
-      maxAge: maxAge
-    });
-
-    // set a cookie for client to read
-    setCookie(event, 'clientSession', token, {
-      httpOnly: false,
-      secure: false,
-      sameSite: 'strict',
-      maxAge: maxAge
-    });
+    return {
+      token,
+      maxAge
+    }
   } catch (error: any) {
     const apiError = parseError(error);
     if (apiError) {

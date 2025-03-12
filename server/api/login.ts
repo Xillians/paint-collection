@@ -1,5 +1,4 @@
 import { readBody } from 'h3';
-import { setCookie } from 'h3';
 import { usePaintApi } from '~/composables/paintApi';
 import { LoginOutputBody } from '../utils/openapi';
 import { differenceInSeconds, parseISO } from 'date-fns';
@@ -8,12 +7,6 @@ import { jwtDecode } from 'jwt-decode';
 export type LoginBody = {
   client_id: string;
 };
-
-type JWTPayload = {
-  sub: string;
-  role: string;
-  exp: number;
-}
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<LoginBody>(event);
@@ -43,14 +36,6 @@ export default defineEventHandler(async (event) => {
     const parsedResponse = parseApiResponse<LoginOutputBody>(response);
     const { token, expires_at } = parsedResponse;
 
-    const decodedToken = jwtDecode<JWTPayload>(token);
-    if (!decodedToken.role) {
-      throw createError({
-        status: 400,
-        message: "Invalid token"
-      });
-    }
-
     // A hack with date-fns and non-standard date format
     const expiresAtString = expires_at.split(' ')[0] + 'T' + expires_at.split(' ')[1];
 
@@ -58,26 +43,9 @@ export default defineEventHandler(async (event) => {
     const now = new Date();
     const maxAge = differenceInSeconds(expiresAt, now);
 
-    setCookie(event, 'session', token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-      path: '/',
-      maxAge: maxAge
-    });
-
-    // set a cookie for client to read
-    setCookie(event, 'clientSession', token, {
-      httpOnly: false,
-      secure: false,
-      sameSite: 'strict',
-      maxAge: maxAge
-    });
     return {
-      body: {
-        message: "Login successful",
-        role: decodedToken.role
-      }
+      token,
+      maxAge
     }
   } catch (error: any) {
     const apiError = parseError(error);

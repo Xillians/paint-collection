@@ -6,10 +6,10 @@
         <button class="transparent" aria-label="Add new brand" type="button" @click="handleAddBrand">
           <AkPlus/>
         </button>
-        <button v-if="chosenBrand" aria-label="Edit brand" type="button" class="transparent" @click="handleEditBrand">
+        <button v-if="chosenBrand && role === 'administrator'" aria-label="Edit brand" type="button" class="transparent" @click="handleEditBrand">
           <AkEdit/>
         </button>
-        <button v-if="chosenBrand" aria-label="Delete brand" type="button" class="transparent" @click="handleDeleteBrand">
+        <button v-if="chosenBrand && role === 'administrator'" aria-label="Delete brand" type="button" class="transparent" @click="handleDeleteBrand">
           <IcTrash/>
         </button>
       </div>
@@ -25,10 +25,10 @@
         <button class="transparent" aria-label="Add new color" type="button" @click="handleAddPaint">
           <AkPlus/>
         </button>
-        <button v-if="chosenPaint" aria-label="Edit color" type="button" class="transparent" @click="handleEditPaint">
+        <button v-if="chosenPaint && role === 'administrator'" aria-label="Edit color" type="button" class="transparent" @click="handleEditPaint">
           <AkEdit/>
         </button>
-        <button v-if="chosenPaint" aria-label="Delete color" type="button" class="transparent" @click="handleDeletePaint">
+        <button v-if="chosenPaint && role === 'administrator'" aria-label="Delete color" type="button" class="transparent" @click="handleDeletePaint">
           <IcTrash/>
         </button>
       </div>
@@ -45,10 +45,19 @@
 import { AkEdit } from '@kalimahapps/vue-icons';
 import { AkPlus } from '@kalimahapps/vue-icons';
 import { IcTrash } from '@kalimahapps/vue-icons';
+import { jwtDecode } from 'jwt-decode';
 import { ref, computed, onMounted, defineEmits } from 'vue';
 import type { PaintBrands, PaintOutputDetails } from '~/server/utils/openapi';
 const { brands, chosenBrand, handleAddBrand, handleDeleteBrand, handleEditBrand } = useBrand();
 const { paints, chosenPaint, handleAddPaint, handleDeletePaint, handleEditPaint } = usePaint();
+
+type claims = {
+  role: string;
+  user_id: number;
+};
+const roleCookie = useCookie('session');
+const decodedToken = roleCookie.value ? jwtDecode<claims>(roleCookie.value) : null;
+const role = ref(decodedToken?.role ?? 'user');
 
 
 const filteredPaints = computed(() => {

@@ -13,14 +13,9 @@
 
  async function logOut() {
   const router = useRouter();
-  try {
-    await $fetch('/api/logout', {
-      method: 'GET',
-    });
-    auth.value.isLoggedIn = false;
-    router.push('/login');
-  } catch (error) {
-    console.error('Error logging out', error);
-  }
+  auth.value.isLoggedIn = false;
+  const session = useCookie('session');
+  session.value = null;
+  router.push('/login');
  }
 </script>

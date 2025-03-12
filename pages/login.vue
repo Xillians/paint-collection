@@ -14,7 +14,6 @@ import {
 import type { LoginBody } from '~/server/api/login';
 import type { RegisterBody } from '~/server/api/registerUser';
 
-const role = useCookie('role', { httpOnly: true, secure: true });
 const auth = useAuthState();
 const router = useRouter();
 const loginError = ref<string | null>(null);
@@ -43,10 +42,12 @@ async function logIn(credentials: string) {
     loginError.value = null;
     return;
   }
-  role.value = res.body.role;
+  
+  const session = useCookie('session', {maxAge: res.maxAge, secure: true, httpOnly: false});
+  session.value = res.token;
 }
 async function registerUser(input: RegisterBody) {
-    await $fetch('/api/registerUser ', {
+    const res = await $fetch('/api/registerUser', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -62,6 +63,9 @@ async function registerUser(input: RegisterBody) {
       registerError.value = null;
       return;
     }
+
+    const session = useCookie('session', {maxAge: res.maxAge, secure: true, httpOnly: false});
+    session.value = res.token;
 }
 
 async function onSuccess(response: CredentialResponse) {
