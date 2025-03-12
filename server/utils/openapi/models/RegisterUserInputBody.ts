@@ -7,6 +7,7 @@ export type RegisterUserInputBody = {
      * A URL to the JSON Schema for this object.
      */
     readonly $schema?: string;
+    email?: string;
     user_id: string;
 };
 

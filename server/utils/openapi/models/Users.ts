@@ -8,8 +8,10 @@ export type Users = {
      */
     readonly $schema?: string;
     created_at: string;
+    email: string;
     google_user_id: string;
     id: number;
+    role: string;
     updated_at: string;
 };
 
