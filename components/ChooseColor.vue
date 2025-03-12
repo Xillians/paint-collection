@@ -75,10 +75,18 @@ onMounted(async () => {
   try {
     const paintResponse = await fetch('/api/listPaints');
     paints.value = await paintResponse.json();
-    paints.value.sort((a, b) => a.name.localeCompare(b.name));
+    paints.value.sort((a, b) => a.name.localeCompare(
+      b.name,
+      undefined,
+      { numeric: true, sensitivity: 'base' },
+    ));
     const brandResponse = await fetch('/api/listBrands');
     brands.value = await brandResponse.json();
-    brands.value.sort((a, b) => a.name.localeCompare(b.name));
+    brands.value.sort((a, b) => a.name.localeCompare(
+      b.name,
+      undefined,
+      { numeric: true, sensitivity: 'base' },
+    ));
   } catch (error) {
     paints.value = [];
   }
@@ -152,5 +160,10 @@ function useBrand() {
     display: grid;
     grid-template-columns: 1fr auto auto auto;
     gap: 5px;
+  }
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
