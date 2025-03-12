@@ -43,6 +43,8 @@ async function logIn(credentials: string) {
     return;
   }
   
+  loginError.value = null;
+  auth.value.isLoggedIn = true;
   const session = useCookie('session', {maxAge: res.maxAge, secure: true, httpOnly: false});
   session.value = res.token;
 }
@@ -64,6 +66,8 @@ async function registerUser(input: RegisterBody) {
       return;
     }
 
+    registerError.value = null;
+    loginError.value = null;
     const session = useCookie('session', {maxAge: res.maxAge, secure: true, httpOnly: false});
     session.value = res.token;
 }

@@ -1,5 +1,4 @@
 import { readBody } from 'h3';
-import { setCookie } from 'h3';
 import { usePaintApi } from '~/composables/paintApi';
 import { LoginOutputBody, RegisterUserInputBody, Users } from '../utils/openapi';
 import { differenceInSeconds, parseISO } from 'date-fns';
@@ -8,6 +7,10 @@ import { jwtDecode } from 'jwt-decode';
 export type RegisterBody = {
   credential: string;
 };
+type jwtClaims = {
+  sub: string;
+  email: string;
+}
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<RegisterBody>(event);
@@ -23,7 +26,7 @@ export default defineEventHandler(async (event) => {
   }
 
   // use jwt-decode to read the sub of the jwt that is the user id
-  const decodedToken = jwtDecode(body.credential);
+  const decodedToken = jwtDecode<jwtClaims>(body.credential);
   const userId = decodedToken.sub;
   if (!userId) {
     throw createError({
@@ -32,7 +35,8 @@ export default defineEventHandler(async (event) => {
     });
   }
   const requestBody: RegisterUserInputBody = {
-    user_id: userId
+    user_id: userId,
+    email: decodedToken.email,
   };
 
   try {
