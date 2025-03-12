@@ -119,6 +119,6 @@ dialog {
 
 @media (max-width: 768px) {
   dialog {
-    width: 85%;
+    width: 80%;
   }
 }
