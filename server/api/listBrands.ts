@@ -1,12 +1,13 @@
-import { usePaintApi } from "~/composables/paintApi";
-import { ListBrandOutputBody } from "../utils/openapi";
+import { parseApiResponse, parseError, apiConfig } from '~/server/utils/paintApiHelper';
+import { ListBrandOutputBody, PaintAPI } from "../utils/openapi";
 
 export default defineEventHandler(async (event) => {
-  const session = parseCookies(event).session;
-  const { paintApi, parseApiResponse, parseError } = usePaintApi(session);
+  const token = parseCookies(event).session;
+  apiConfig.TOKEN = token;
+  const api = new PaintAPI(apiConfig);
 
   try {
-    const response = await paintApi.paintBrands.getPaintBrands()
+    const response = await api.paintBrands.getPaintBrands()
     const parsedResponse = parseApiResponse<ListBrandOutputBody>(response);
     return parsedResponse.brands;
   } catch (error: any) {

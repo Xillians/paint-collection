@@ -1,12 +1,14 @@
-import { usePaintApi } from "~/composables/paintApi";
+import { PaintAPI } from '~/server/utils/openapi';
+import { parseApiResponse, parseError, apiConfig } from '~/server/utils/paintApiHelper';
 
 export default defineEventHandler(async (event) => {
-  const session = parseCookies(event).session;
-  const { paintApi, parseError } = usePaintApi(session);
+  const token = parseCookies(event).session;
+  apiConfig.TOKEN = token;
+  const api = new PaintAPI(apiConfig);
   const id = event.context.params?.id;
 
   try {
-    const response = await paintApi.collection.deleteCollection(Number(id));
+    const response = await api.collection.deleteCollection(Number(id));
     if (typeof response == 'string') {
       return response;
     }

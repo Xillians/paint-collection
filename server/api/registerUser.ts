@@ -1,6 +1,6 @@
 import { readBody } from 'h3';
-import { usePaintApi } from '~/composables/paintApi';
-import { LoginOutputBody, RegisterUserInputBody, Users } from '../utils/openapi';
+import { parseApiResponse, parseError, apiConfig } from '~/server/utils/paintApiHelper';
+import { LoginOutputBody, PaintAPI, RegisterUserInputBody, Users } from '../utils/openapi';
 import { differenceInSeconds, parseISO } from 'date-fns';
 import { jwtDecode } from 'jwt-decode';
 
@@ -14,9 +14,9 @@ type jwtClaims = {
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<RegisterBody>(event);
-  const cookies = parseCookies(event);
-  const token = cookies.session;
-  const { paintApi, parseApiResponse, parseError } = usePaintApi(token);
+  const token = parseCookies(event).session;
+  apiConfig.TOKEN = token;
+  const api = new PaintAPI(apiConfig);
 
   if (!body.credential) {
     throw createError({
@@ -40,11 +40,11 @@ export default defineEventHandler(async (event) => {
   };
 
   try {
-    const response = await paintApi.users.postRegister(requestBody);
+    const response = await api.users.postRegister(requestBody);
     const parsedResponse = parseApiResponse<Users>(response);
     const { google_user_id } = parsedResponse;
 
-    const loginResponse = await paintApi.users.getLogin(google_user_id);
+    const loginResponse = await api.users.getLogin(google_user_id);
     const parsedRespone = parseApiResponse<LoginOutputBody>(loginResponse);
     const { token, expires_at } = parsedRespone;
 

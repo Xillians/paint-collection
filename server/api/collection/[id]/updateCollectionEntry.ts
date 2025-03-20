@@ -1,9 +1,10 @@
-import { usePaintApi } from "~/composables/paintApi";
-import { CollectionPaintDetails, UpdateCollectionEntryInputBody } from "~/server/utils/openapi";
+import { parseApiResponse, parseError, apiConfig } from '~/server/utils/paintApiHelper';
+import { CollectionPaintDetails, PaintAPI, UpdateCollectionEntryInputBody } from "~/server/utils/openapi";
 
 export default defineEventHandler(async (event) => {
-  const session = parseCookies(event).session;
-  const { paintApi, parseApiResponse, parseError } = usePaintApi(session);
+  const token = parseCookies(event).session;
+  apiConfig.TOKEN = token;
+  const api = new PaintAPI(apiConfig);
 
   try {
 
@@ -35,7 +36,7 @@ export default defineEventHandler(async (event) => {
 
     const id = event.context.params?.id;
 
-    const response = await paintApi.collection.putCollection(Number(id), input);
+    const response = await api.collection.putCollection(Number(id), input);
     const parsedResponse = parseApiResponse<CollectionPaintDetails>(response);
     return parsedResponse;
   } catch (error: any) {

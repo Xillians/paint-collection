@@ -1,6 +1,6 @@
 import { readBody } from 'h3';
-import { usePaintApi } from '~/composables/paintApi';
-import { LoginOutputBody } from '../utils/openapi';
+import { parseApiResponse, parseError, apiConfig } from '~/server/utils/paintApiHelper';
+import { LoginOutputBody, PaintAPI } from '../utils/openapi';
 import { differenceInSeconds, parseISO } from 'date-fns';
 import { jwtDecode } from 'jwt-decode';
 
@@ -10,9 +10,9 @@ export type LoginBody = {
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<LoginBody>(event);
-  const cookies = parseCookies(event);
-  const token = cookies.session;
-  const { paintApi, parseApiResponse, parseError } = usePaintApi(token);
+  const token = parseCookies(event).session;
+  apiConfig.TOKEN = token;
+  const api = new PaintAPI(apiConfig);
 
   if (!body.client_id) {
     throw createError({
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const response = await paintApi.users.getLogin(userId);
+    const response = await api.users.getLogin(userId);
     const parsedResponse = parseApiResponse<LoginOutputBody>(response);
     const { token, expires_at } = parsedResponse;
 
