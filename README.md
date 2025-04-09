@@ -1,4 +1,5 @@
 # Paint Collection
+![builds passing](https://github.com/Xillians/paint-collection/actions/workflows/push.yml/badge.svg?branch=main)
 
 ## Table of Contents
 
