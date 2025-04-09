@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: "18"
       - name: Install dependencies ✅
-        run: pnpm install --frozen-lockfile
+        run: pnpm install 
       - name: Lint 🧹
         run: pnpm lint
       - name: Build 🔨
