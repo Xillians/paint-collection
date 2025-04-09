@@ -1,6 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['nuxt-vue3-google-signin', '@nuxt/eslint'],
+  modules: [
+    'nuxt-vue3-google-signin',
+    '@nuxt/eslint',
+    '@nuxt/test-utils/module',
+  ],
   components: [
     {
       path: '~/components',
