@@ -1,16 +1,16 @@
 <template>
   <div>
     <label v-if="props.label">{{ props.label }}</label>
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps } from 'vue'
 
 const props = defineProps<{
-  label?: string;
-}>();
+  label?: string
+}>()
 </script>
 
 <style scoped>

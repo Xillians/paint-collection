@@ -1,101 +1,103 @@
 <template>
-  <GoogleSignInButton 
-    @success="onSuccess" 
-    @error="onError" 
+  <GoogleSignInButton
+    @success="onSuccess"
+    @error="onError"
   />
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { useAuthState } from '#imports';
-import {
-  type CredentialResponse,
-} from "vue3-google-signin";
-import type { LoginBody } from '~/server/api/login';
-import type { RegisterBody } from '~/server/api/registerUser';
+import { useRouter } from 'vue-router'
+import type {
+  CredentialResponse,
+} from 'vue3-google-signin'
+import { useAuthState, useCookie } from '#imports'
+import type { LoginBody, LoginResponse } from '~/server/api/login'
+import type { RegisterBody } from '~/server/api/registerUser'
 
-const auth = useAuthState();
-const router = useRouter();
-const loginError = ref<string | null>(null);
-const registerError = ref<string | null>(null);
+const auth = useAuthState()
+const router = useRouter()
+const loginError = ref<string | null>(null)
+const registerError = ref<string | null>(null)
 
 if (auth.value.isLoggedIn) {
-  router.push('/');
+  router.push('/')
 }
 
 async function logIn(credentials: string) {
   const input: LoginBody = {
     client_id: credentials,
-  };
-  const res = await $fetch('/api/login', {
+  }
+  const res = await $fetch<LoginResponse>('/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(input),
-    onResponseError: ({response}) => {
-      console.log("Login error", response._data.message);
-      loginError.value = response._data.message;
+    onResponseError: ({ response }) => {
+      console.log('Login error', response._data.message)
+      loginError.value = response._data.message
     },
-  });
+  })
   if (loginError.value) {
-    loginError.value = null;
-    return;
+    loginError.value = null
+    return
   }
-  
-  loginError.value = null;
-  auth.value.isLoggedIn = true;
-  const session = useCookie('session', {maxAge: res.maxAge, secure: true, httpOnly: false});
-  session.value = res.token;
+
+  loginError.value = null
+  auth.value.isLoggedIn = true
+  const session = useCookie('session', { maxAge: res.maxAge, secure: true, httpOnly: false })
+  session.value = res.token
 }
 async function registerUser(input: RegisterBody) {
-    const res = await $fetch('/api/registerUser', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(input),
-      onResponseError: ({response}) => {
-        console.log("Register error", response._data.message);
-        registerError.value = response._data.message;
-      },
-    });
-    if (registerError.value) {
-      console.log("Register error", registerError.value);
-      registerError.value = null;
-      return;
-    }
+  const res = await $fetch<LoginResponse>('/api/registerUser', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(input),
+    onResponseError: ({ response }) => {
+      console.log('Register error', response._data.message)
+      registerError.value = response._data.message
+    },
+  })
+  if (registerError.value) {
+    console.log('Register error', registerError.value)
+    registerError.value = null
+    return
+  }
 
-    registerError.value = null;
-    loginError.value = null;
-    const session = useCookie('session', {maxAge: res.maxAge, secure: true, httpOnly: false});
-    session.value = res.token;
+  registerError.value = null
+  loginError.value = null
+  const session = useCookie('session', { maxAge: res.maxAge, secure: true, httpOnly: false })
+  session.value = res.token
 }
 
 async function onSuccess(response: CredentialResponse) {
-  const { credential } = response;
-  if(!credential) {
-    return;
+  const { credential } = response
+  if (!credential) {
+    return
   }
   try {
-    await logIn(credential);
-  } catch (error) {
-    await registerUser({credential});
+    await logIn(credential)
+  }
+  catch {
+    await registerUser({ credential })
     if (registerError.value) {
-      return;
+      return
     }
-  } finally {
+  }
+  finally {
     if (!loginError.value) {
-      auth.value.isLoggedIn = true;
-      router.push('/');
+      auth.value.isLoggedIn = true
+      router.push('/')
     }
-    loginError.value = null;
-    registerError.value = null;
+    loginError.value = null
+    registerError.value = null
   }
 }
 
-async function onError(error: any) {
-  console.error(error);
+async function onError(error: Error) {
+  console.error(error)
 }
 </script>
 

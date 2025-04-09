@@ -1,36 +1,43 @@
 <template>
-  <button @click="() => dialog?.openDialog(collection.id)" v-for="collection in collection" :key="collection.id" class="entry-card transparent">
+  <button
+    v-for="entry in collection"
+    :key="entry.id"
+    class="entry-card transparent"
+    @click="() => dialog?.openDialog(entry.id)"
+  >
     <LabelledField>
-      <p>{{ collection.quantity }}x</p>
+      <p>{{ entry.quantity }}x</p>
     </LabelledField>
     <LabelledField label="Brand">
-      <p>{{ collection.paint.brand.name }}</p>
+      <p>{{ entry.paint.brand.name }}</p>
     </LabelledField>
     <LabelledField label="Name">
-      <p>{{ collection.paint.name }}</p>
+      <p>{{ entry.paint.name }}</p>
     </LabelledField>
     <LabelledField>
-      <div :style="{ 
-        backgroundColor: collection.paint.color_code,
-        height: '20px',
-        width: '20px',
-      }"></div>
+      <div
+        :style="{
+          backgroundColor: entry.paint.color_code,
+          height: '20px',
+          width: '20px',
+        }"
+      />
     </LabelledField>
   </button>
   <UpdateEntryDialog ref="dialog" />
 </template>
 
 <script setup lang="ts">
-  import type { UpdateEntryDialog } from '#components';
-  import { ref } from 'vue';
+import { ref } from 'vue'
+import type { UpdateEntryDialog } from '#components'
 
-  const { collection } = useColorState;
-  const dialog = ref<InstanceType<typeof UpdateEntryDialog> | null>(null);
+const { collection } = useColorState
+const dialog = ref<InstanceType<typeof UpdateEntryDialog> | null>(null)
 
-  onMounted(async () => {
-    const reponse = await $fetch('/api/collection/listCollection');
-    collection.value = reponse;
-  });
+onMounted(async () => {
+  const reponse = await $fetch('/api/collection/listCollection')
+  collection.value = reponse
+})
 </script>
 
 <style scoped>
