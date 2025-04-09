@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 
-import { CollectionPaintDetails } from "./CollectionPaintDetails";
+import type { CollectionPaintDetails } from './CollectionPaintDetails'
 
 /* eslint-disable */
 export type ListPaintCollectionOutputBody = {

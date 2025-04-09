@@ -1,28 +1,30 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  modules: [
+    'nuxt-vue3-google-signin',
+    '@nuxt/eslint',
+    '@nuxt/test-utils/module',
+  ],
   components: [
     {
       path: '~/components',
       pathPrefix: false,
-    }
+    },
   ],
-  modules: [
-    'nuxt-vue3-google-signin',
-  ],
-  runtimeConfig: {
-    public: {
-      googleSignIn: {
-        clientId: process.env.GOOGLE_SIGN_IN || ''
-      }
-    }
-  },
 
   devtools: {
     enabled: true,
 
     timeline: {
-      enabled: true
-    }
-  }
+      enabled: true,
+    },
+  },
+  runtimeConfig: {
+    public: {
+      googleSignIn: {
+        clientId: process.env.GOOGLE_SIGN_IN || '',
+      },
+    },
+  },
+  compatibilityDate: '2024-11-01',
 })

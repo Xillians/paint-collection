@@ -1,28 +1,29 @@
-import { PaintAPI } from '~/server/utils/openapi';
-import { parseApiResponse, parseError, apiConfig } from '~/server/utils/paintApiHelper';
+import { PaintAPI } from '~/server/utils/openapi'
+import { parseError, apiConfig } from '~/server/utils/paintApiHelper'
 
 export default defineEventHandler(async (event) => {
-  const token = parseCookies(event).session;
-  apiConfig.TOKEN = token;
-  const api = new PaintAPI(apiConfig);
-  const id = event.context.params?.id;
+  const token = parseCookies(event).session
+  apiConfig.TOKEN = token
+  const api = new PaintAPI(apiConfig)
+  const id = event.context.params?.id
 
   try {
-    const response = await api.collection.deleteCollection(Number(id));
+    const response = await api.collection.deleteCollection(Number(id))
     if (typeof response == 'string') {
-      return response;
+      return response
     }
-  } catch (error: any) {
-    const err = parseError(error);
+  }
+  catch (error) {
+    const err = parseError(error)
     if (err) {
       throw createError({
         status: err.status,
-        message: err.detail
-      });
+        message: err.detail,
+      })
     }
     throw createError({
-      status: error.statusCode || 500,
-      message: error.cause.message || "Internal server error"
-    });
+      status: 500,
+      message: 'Internal server error',
+    })
   }
-});
+})

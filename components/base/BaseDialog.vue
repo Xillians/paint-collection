@@ -2,36 +2,41 @@
   <dialog ref="dialog">
     <div class="dialog-header">
       <h2>
-        <slot name="title">Dialog</slot>
+        <slot name="title">
+          Dialog
+        </slot>
       </h2>
-      <button @click="closeDialog" aria-label="close dialog" class="transparent">
+      <button
+        aria-label="close dialog"
+        class="transparent"
+        @click="closeDialog"
+      >
         <h3>✕</h3>
       </button>
     </div>
-    <slot></slot>
+    <slot />
   </dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue';
+import { ref } from 'vue'
 
-const dialog = ref<HTMLDialogElement | null>(null);
-const emit = defineEmits(['submit']);
+const dialog = ref<HTMLDialogElement | null>(null)
 
 function openDialog() {
   if (dialog.value) {
-    dialog.value.showModal();
+    dialog.value.showModal()
   }
 }
 
 function closeDialog(event: Event) {
-  event.preventDefault();
+  event.preventDefault()
   if (dialog.value) {
-    dialog.value.close();
+    dialog.value.close()
   }
 }
 
-defineExpose({ openDialog, closeDialog });
+defineExpose({ openDialog, closeDialog })
 </script>
 
 <style scoped>

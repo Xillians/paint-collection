@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 
-import { PaintBrands } from "./PaintBrands";
+import type { PaintBrands } from './PaintBrands'
 
 /* eslint-disable */
 export type ListBrandOutputBody = {
