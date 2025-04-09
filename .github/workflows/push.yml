@@ -10,21 +10,26 @@ on:
     
 
 jobs:
-  build_and_test:
+  cache-and-install:
     runs-on: ubuntu-latest
     steps:
-      - uses: pnpm/action-setup@v4
+      - name: Checkout repository 📂
+        uses: actions/checkout@v4
+      - name: Install pnpm 📦
+        uses: pnpm/action-setup@v4
         with:
           version: 10
-      - name: Setup node 🛎️
-        uses: actions/setup-node@v3
+          run_install: false
+      - name: Install Node.js 🛎️
+        uses: actions/setup-node@v4
         with:
-          node-version: "18"
-      - name: Install dependencies ✅
-        run: pnpm install 
-      - name: Lint 🧹
-        run: pnpm lint
-      - name: Build 🔨
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install dependencies 📦
+        run: pnpm install
+      - name: Build app 🏗
         run: pnpm build
-      - name: Test 🧪
+      - name: Run tests 🧪
         run: pnpm test
+      - name: Run linting 🧹
+        run: pnpm lint
