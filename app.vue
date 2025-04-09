@@ -9,15 +9,17 @@
 </template>
 
 <script setup lang="ts">
-import AppFooter from './components/AppFooter.vue';
-import AppHeader from './components/AppHeader.vue';
+import { useRouter } from 'vue-router'
+import AppFooter from './components/AppFooter.vue'
+import AppHeader from './components/AppHeader.vue'
+import { useAuthState } from '#imports'
 
- const auth = useAuthState();
- const router = useRouter();
+const auth = useAuthState()
+const router = useRouter()
 
-  if (!auth.value.isLoggedIn && router.currentRoute.value.path !== "/login") {
-    router.push("/login");
-  }
+if (!auth.value.isLoggedIn && router.currentRoute.value.path !== '/login') {
+  router.push('/login')
+}
 </script>
 
 <style>

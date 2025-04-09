@@ -1,21 +1,29 @@
-
 <template>
   <header>
     <h1>
       Paint collection
     </h1>
-    <button v-if="auth.isLoggedIn" @click="logOut" aria-label="Log out">Log out</button>
+    <button
+      v-if="auth.isLoggedIn"
+      aria-label="Log out"
+      @click="logOut"
+    >
+      Log out
+    </button>
   </header>
 </template>
 
 <script setup lang="ts">
- const auth = useAuthState();
+import { useRouter } from 'vue-router'
+import { useAuthState, useCookie } from '#imports'
 
- async function logOut() {
-  const router = useRouter();
-  auth.value.isLoggedIn = false;
-  const session = useCookie('session');
-  session.value = null;
-  router.push('/login');
- }
+const auth = useAuthState()
+
+async function logOut() {
+  const router = useRouter()
+  auth.value.isLoggedIn = false
+  const session = useCookie('session')
+  session.value = null
+  router.push('/login')
+}
 </script>

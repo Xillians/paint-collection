@@ -1,59 +1,76 @@
 <template>
-  <button @click="openDialog" aria-label="add entry" class="transparent">
+  <button
+    aria-label="add entry"
+    class="transparent"
+    @click="openDialog"
+  >
     <h2>+</h2>
   </button>
   <BaseDialog ref="dialog">
     <template #title>
       Add Entry
     </template>
-    <p v-if="error" class="error">{{ error }}</p>
+    <p
+      v-if="error"
+      class="error"
+    >
+      {{ error }}
+    </p>
     <form @submit.prevent="handleAddEntry">
       <label for="amount">Amount</label>
-      <input v-model="amount" type="number" placeholder="Amount" required />
-      <ChooseColor @update:chosenPaint="handleChosenPaint" />
-      <button type="submit">Add entry</button>
+      <input
+        v-model="amount"
+        type="number"
+        placeholder="Amount"
+        required
+      >
+      <ChooseColor @update:chosen-paint="handleChosenPaint" />
+      <button type="submit">
+        Add entry
+      </button>
     </form>
   </BaseDialog>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import BaseDialog from './base/BaseDialog.vue';
-import type { AddToCollectionInputBody, PaintOutputDetails } from '~/server/utils/openapi';
-const { collection } = useColorState;
+import { ref } from 'vue'
+import BaseDialog from './base/BaseDialog.vue'
+import type { AddToCollectionInputBody, CollectionPaintDetails, PaintOutputDetails } from '~/server/utils/openapi'
 
-const amount = ref<number | null>(null);
-const color = ref<PaintOutputDetails | null>(null);
-const dialog = ref<InstanceType<typeof BaseDialog> | null>(null);
-const error = ref<string | null>(null);
+const { collection } = useColorState
+
+const amount = ref<number | null>(null)
+const color = ref<PaintOutputDetails | null>(null)
+const dialog = ref<InstanceType<typeof BaseDialog> | null>(null)
+const error = ref<string | null>(null)
 
 function openDialog() {
-  dialog.value?.openDialog();
+  dialog.value?.openDialog()
 }
 function handleChosenPaint(chosenPaint: PaintOutputDetails) {
-  color.value = chosenPaint;
+  color.value = chosenPaint
 }
 
 async function handleAddEntry(event: Event) {
-  if (!color.value || !amount.value) return;
+  if (!color.value || !amount.value) return
 
   const input: AddToCollectionInputBody = {
     paint_id: color.value.id,
     quantity: amount.value,
-  };
-  await $fetch('/api/collection/addCollectionEntry', {
+  }
+  await $fetch<Promise<CollectionPaintDetails>>('/api/collection/addCollectionEntry', {
     method: 'POST',
     body: JSON.stringify(input),
-    onResponseError: ({response}) => {
-      error.value = response._data.message;
+    onResponseError: ({ response }) => {
+      error.value = response._data.message
     },
-  });
+  })
 
-  const response = await $fetch('/api/collection/listCollection');
-  collection.value = response;
-  
-  error.value = null;
-  dialog.value?.closeDialog(event);
+  const response = await $fetch<CollectionPaintDetails[]>('/api/collection/listCollection')
+  collection.value = response
+
+  error.value = null
+  dialog.value?.closeDialog(event)
 }
 </script>
 

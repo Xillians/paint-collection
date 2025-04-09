@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 
-import { PaintOutputDetails } from "./PaintOutputDetails";
+import type { PaintOutputDetails } from './PaintOutputDetails'
 
 /* eslint-disable */
 export type ListPaintOutputBody = {
