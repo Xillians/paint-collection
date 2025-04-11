@@ -12,8 +12,14 @@ import type {
 
 const { isLoggedIn, logIn, registerUser } = authStore()
 const router = useRouter()
+
 if (isLoggedIn) {
-  router.push('/')
+  try {
+    await listCollection()
+    router.push('/')
+  } catch {
+    await authStore().logOut()
+  }
 }
 
 async function onSuccess(response: CredentialResponse) {
