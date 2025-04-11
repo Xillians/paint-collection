@@ -35,8 +35,7 @@ const { collection } = useColorState
 const dialog = ref<InstanceType<typeof UpdateEntryDialog> | null>(null)
 
 onMounted(async () => {
-  const reponse = await $fetch('/api/collection/listCollection')
-  collection.value = reponse
+  await listCollection()
 })
 </script>
 

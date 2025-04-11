@@ -35,9 +35,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import BaseDialog from './base/BaseDialog.vue'
-import type { AddToCollectionInputBody, CollectionPaintDetails, PaintOutputDetails } from '~/server/utils/openapi'
-
-const { collection } = useColorState
+import type { PaintOutputDetails } from '~/server/utils/openapi'
 
 const amount = ref<number | null>(null)
 const color = ref<PaintOutputDetails | null>(null)
@@ -54,22 +52,17 @@ function handleChosenPaint(chosenPaint: PaintOutputDetails) {
 async function handleAddEntry(event: Event) {
   if (!color.value || !amount.value) return
 
-  const input: AddToCollectionInputBody = {
-    paint_id: color.value.id,
-    quantity: amount.value,
+  try {
+    await addEntry({
+      paint_id: color.value.id,
+      quantity: amount.value,
+    })
   }
-  await $fetch<Promise<CollectionPaintDetails>>('/api/collection/addCollectionEntry', {
-    method: 'POST',
-    body: JSON.stringify(input),
-    onResponseError: ({ response }) => {
-      error.value = response._data.message
-    },
-  })
+  catch (e) {
+    error.value = String(e)
+    return
+  }
 
-  const response = await $fetch<CollectionPaintDetails[]>('/api/collection/listCollection')
-  collection.value = response
-
-  error.value = null
   dialog.value?.closeDialog(event)
 }
 </script>

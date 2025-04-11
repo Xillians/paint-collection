@@ -37,15 +37,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { PaintOutputDetails, UpdateCollectionEntryInputBody } from '~/server/utils/openapi'
 import type { BaseDialog } from '#components'
+import type { PaintOutputDetails } from '~/server/utils/openapi'
+import { deleteEntry, updateEntry } from '#imports'
 
 const amount = ref<number | null>(null)
 const color = ref<PaintOutputDetails | null>(null)
 const dialog = ref<InstanceType<typeof BaseDialog> | null>(null)
 const currentCollectionId = ref<number | null>(null)
 const error = ref<string | null>(null)
-const { collection } = useColorState
 
 function openDialog(id: number) {
   currentCollectionId.value = id
@@ -59,39 +59,31 @@ function handleChosenPaint(chosenPaint: PaintOutputDetails) {
 async function handleDelete(event: Event) {
   if (!currentCollectionId.value) return
 
-  await $fetch(`/api/collection/${currentCollectionId.value}/deleteEntry`, {
-    method: 'DELETE',
-    onResponseError: ({ response }) => {
-      error.value = response._data.message
-    },
-  })
+  try {
+    await deleteEntry(currentCollectionId.value)
+  }
+  catch (e) {
+    error.value = String(e)
+    return
+  }
 
-  const response = await $fetch('/api/collection/listCollection')
-  collection.value = response
-
-  error.value = null
   dialog.value?.closeDialog(event)
 }
 
 async function handleUpdate(event: Event) {
   if (!currentCollectionId.value || !amount.value || !color.value) return
 
-  const input: UpdateCollectionEntryInputBody = {
-    quantity: amount.value,
-    paint_id: color.value.id,
+  try {
+    await updateEntry(currentCollectionId.value, {
+      quantity: amount.value,
+      paint_id: color.value.id,
+    })
   }
-  await $fetch(`/api/collection/${currentCollectionId.value}/updateCollectionEntry`, {
-    method: 'PUT',
-    body: JSON.stringify(input),
-    onResponseError: ({ response }) => {
-      error.value = response._data.message
-    },
-  })
+  catch (e) {
+    error.value = String(e)
+    return
+  }
 
-  const updatedCollection = await $fetch('/api/collection/listCollection')
-  collection.value = updatedCollection
-
-  error.value = null
   dialog.value?.closeDialog(event)
 }
 
