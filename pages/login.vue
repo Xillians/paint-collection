@@ -17,7 +17,8 @@ if (isLoggedIn) {
   try {
     await listCollection()
     router.push('/')
-  } catch {
+  }
+  catch {
     await authStore().logOut()
   }
 }

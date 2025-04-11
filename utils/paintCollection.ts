@@ -12,7 +12,6 @@ export async function addEntry(input: AddToCollectionInputBody) {
 
 // Deletes an entry and refreshes the collection list
 export async function deleteEntry(collectionId: number) {
-
   await $fetch<Promise<string>>(`/api/collection/${collectionId}/deleteEntry`, {
     method: 'DELETE',
     onResponseError: ({ response }) => {
@@ -44,6 +43,6 @@ export async function updateEntry(
 export async function listCollection() {
   const { collection } = useColorState
 
-  const response = await $fetch<Promise<CollectionPaintDetails[]>>('/api/collection/listCollection');
-  collection.value = response;
+  const response = await $fetch<Promise<CollectionPaintDetails[]>>('/api/collection/listCollection')
+  collection.value = response
 }
