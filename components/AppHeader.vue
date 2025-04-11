@@ -14,6 +14,6 @@
 </template>
 
 <script setup lang="ts">
-const store = authStore();
-const { isLoggedIn } = storeToRefs(store);
+const store = authStore()
+const { isLoggedIn } = storeToRefs(store)
 </script>
