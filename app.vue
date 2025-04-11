@@ -10,14 +10,11 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import AppFooter from './components/AppFooter.vue'
-import AppHeader from './components/AppHeader.vue'
-import { useAuthState } from '#imports'
 
-const auth = useAuthState()
+const { isLoggedIn } = useAuthState()
 const router = useRouter()
 
-if (!auth.value.isLoggedIn && router.currentRoute.value.path !== '/login') {
+if (!isLoggedIn.value && router.currentRoute.value.path !== '/login') {
   router.push('/login')
 }
 </script>

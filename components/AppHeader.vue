@@ -4,7 +4,7 @@
       Paint collection
     </h1>
     <button
-      v-if="auth.isLoggedIn"
+      v-if="isLoggedIn"
       aria-label="Log out"
       @click="logOut"
     >
@@ -14,16 +14,5 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { useAuthState, useCookie } from '#imports'
-
-const auth = useAuthState()
-
-async function logOut() {
-  const router = useRouter()
-  auth.value.isLoggedIn = false
-  const session = useCookie('session')
-  session.value = null
-  router.push('/login')
-}
+const { isLoggedIn, logOut } = useAuthState()
 </script>

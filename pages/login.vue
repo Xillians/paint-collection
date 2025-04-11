@@ -6,70 +6,14 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import type {
   CredentialResponse,
 } from 'vue3-google-signin'
-import { useAuthState, useCookie } from '#imports'
-import type { LoginBody, LoginResponse } from '~/server/api/login'
-import type { RegisterBody } from '~/server/api/registerUser'
 
-const auth = useAuthState()
+const { isLoggedIn, logIn, registerUser } = useAuthState()
 const router = useRouter()
-const loginError = ref<string | null>(null)
-const registerError = ref<string | null>(null)
-
-if (auth.value.isLoggedIn) {
+if (isLoggedIn.value) {
   router.push('/')
-}
-
-async function logIn(credentials: string) {
-  const input: LoginBody = {
-    client_id: credentials,
-  }
-  const res = await $fetch<LoginResponse>('/api/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(input),
-    onResponseError: ({ response }) => {
-      console.log('Login error', response._data.message)
-      loginError.value = response._data.message
-    },
-  })
-  if (loginError.value) {
-    loginError.value = null
-    return
-  }
-
-  loginError.value = null
-  auth.value.isLoggedIn = true
-  const session = useCookie('session', { maxAge: res.maxAge, secure: true, httpOnly: false })
-  session.value = res.token
-}
-async function registerUser(input: RegisterBody) {
-  const res = await $fetch<LoginResponse>('/api/registerUser', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(input),
-    onResponseError: ({ response }) => {
-      console.log('Register error', response._data.message)
-      registerError.value = response._data.message
-    },
-  })
-  if (registerError.value) {
-    console.log('Register error', registerError.value)
-    registerError.value = null
-    return
-  }
-
-  registerError.value = null
-  loginError.value = null
-  const session = useCookie('session', { maxAge: res.maxAge, secure: true, httpOnly: false })
-  session.value = res.token
 }
 
 async function onSuccess(response: CredentialResponse) {
@@ -81,18 +25,24 @@ async function onSuccess(response: CredentialResponse) {
     await logIn(credential)
   }
   catch {
-    await registerUser({ credential })
-    if (registerError.value) {
-      return
+    try {
+      await registerUser(credential)
+    }
+    catch {
+      createError({
+        statusCode: 500,
+        statusMessage: 'Login failed',
+      })
     }
   }
   finally {
-    if (!loginError.value) {
-      auth.value.isLoggedIn = true
-      router.push('/')
+    if (!isLoggedIn.value) {
+      createError({
+        statusCode: 500,
+        statusMessage: 'Login failed',
+      })
     }
-    loginError.value = null
-    registerError.value = null
+    router.push('/')
   }
 }
 
