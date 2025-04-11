@@ -5,4 +5,7 @@ export default createConfigForNuxt({
     stylistic: true,
     typescript: true,
   },
+  rules: {
+    semi: ['error', 'always'],
+  },
 })
