@@ -10,7 +10,6 @@ export const authStore = defineStore('authState', () => {
 
   watch(session, (newValue) => {
     cookie.value = newValue
-    console.log('cookie.value', cookie.value)
     isLoggedIn.value = !!newValue
   })
 
