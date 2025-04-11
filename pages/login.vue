@@ -8,31 +8,31 @@
 <script setup lang="ts">
 import type {
   CredentialResponse,
-} from 'vue3-google-signin'
+} from 'vue3-google-signin';
 
-const { isLoggedIn, logIn, registerUser } = authStore()
-const router = useRouter()
+const { isLoggedIn, logIn, registerUser } = authStore();
+const router = useRouter();
 if (isLoggedIn) {
-  router.push('/')
+  router.push('/');
 }
 
 async function onSuccess(response: CredentialResponse) {
-  const { credential } = response
+  const { credential } = response;
   if (!credential) {
-    return
+    return;
   }
   try {
-    await logIn(credential)
+    await logIn(credential);
   }
   catch {
     try {
-      await registerUser(credential)
+      await registerUser(credential);
     }
     catch {
       createError({
         statusCode: 500,
         statusMessage: 'Login failed',
-      })
+      });
     }
   }
   finally {
@@ -40,14 +40,14 @@ async function onSuccess(response: CredentialResponse) {
       createError({
         statusCode: 500,
         statusMessage: 'Login failed',
-      })
+      });
     }
-    router.push('/')
+    router.push('/');
   }
 }
 
 async function onError(error: Error) {
-  console.error(error)
+  console.error(error);
 }
 </script>
 
