@@ -6,7 +6,7 @@
     <button
       v-if="isLoggedIn"
       aria-label="Log out"
-      @click="logOut"
+      @click="store.logOut"
     >
       Log out
     </button>
@@ -14,5 +14,6 @@
 </template>
 
 <script setup lang="ts">
-const { isLoggedIn, logOut } = useAuthState()
+const store = authStore();
+const { isLoggedIn } = storeToRefs(store);
 </script>

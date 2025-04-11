@@ -4,6 +4,7 @@ export default defineNuxtConfig({
     'nuxt-vue3-google-signin',
     '@nuxt/eslint',
     '@nuxt/test-utils/module',
+    '@pinia/nuxt',
   ],
   components: [
     {

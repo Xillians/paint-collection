@@ -10,9 +10,9 @@ import type {
   CredentialResponse,
 } from 'vue3-google-signin'
 
-const { isLoggedIn, logIn, registerUser } = useAuthState()
+const { isLoggedIn, logIn, registerUser } = authStore()
 const router = useRouter()
-if (isLoggedIn.value) {
+if (isLoggedIn) {
   router.push('/')
 }
 
@@ -36,7 +36,7 @@ async function onSuccess(response: CredentialResponse) {
     }
   }
   finally {
-    if (!isLoggedIn.value) {
+    if (!isLoggedIn) {
       createError({
         statusCode: 500,
         statusMessage: 'Login failed',

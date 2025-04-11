@@ -11,7 +11,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 
-const { isLoggedIn } = useAuthState()
+const store = authStore();
+const { isLoggedIn } = storeToRefs(store);
+
 const router = useRouter()
 
 if (!isLoggedIn.value && router.currentRoute.value.path !== '/login') {
